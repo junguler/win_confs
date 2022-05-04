@@ -1,0 +1,29 @@
+:root{
+--tab-block-margin: 0px 0px !important;
+}
+
+#tabbrowser-tabs:not([secondarytext-unsupported]) .tab-label-container{
+max-height: var(--tab-min-height);
+}
+.tab-label{ line-height: 20px !important; }
+
+* {
+border-radius: 0px !important;
+}
+
+#main-window { 
+border-radius: 5px !important; 
+}
+
+.search-one-offs {
+display: none !important;
+}
+
+.urlbarView-row-inner {
+padding-inline: var(--urlbarView-item-inline-padding) !important;
+padding-block: 2px !important;
+}
+
+.titlebar-spacer[type="pre-tabs"] {
+display: none !important;
+}

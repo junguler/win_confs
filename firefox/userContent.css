@@ -1,0 +1,229 @@
+/* html, div {
+background-color: rgba(34, 34, 34, 0.1) !important; 
+background: rgba(34, 34, 34, 0.1) !important; 
+background-image: linear-gradient(rgba(34, 34, 34, 0.1),rgba(34, 34, 34, 0.1)) !important;  
+} */
+
+/*
+#2e3440  #3b4252  #434c5e  #4c566a
+#d8dee9  #e5e9f0  #eceff4
+#8fbcbb  #88c0d0  #81a1c1  #5e81ac
+#bf616a  #d08770  #a3be8c  #ebcb8b  #b48ead  
+*/
+
+body {
+background-color: rgb(34, 34, 34) !important; /* background color */
+background: rgb(34, 34, 34) !important; /* background color */
+background-image: linear-gradient(rgb(34, 34, 34),rgb(34, 34, 34)) !important; /* background gradient, its used on some websites */
+color: rgb(221, 221, 221) !important; /* text color */
+opacity: 90% !important; /* make everything on the page 90% brightness */
+}
+
+* {
+scrollbar-color: rgb(151, 162, 255) rgb(64, 64, 64) !important;
+scrollbar-width: thin !important;
+border-radius: 0px !important;
+}
+
+p {
+color: rgb(221, 221, 221) !important; /* text color */
+}
+
+span {
+background-color: rgb(54, 54, 54) !important;
+}
+
+b, em, i, u, em, small {
+color: rgba(255, 171, 171, 1) !important; /* color for bold text and glyphs */
+}
+
+h1, h2 {
+color: rgba(133, 227, 255, 1) !important; /* color for two biggest header sizes */
+}
+
+ul, ol, li, del, dt, dd, optgroup, dl {
+color: rgba(246, 166, 255, 1) !important; /* color for all list types + */
+}
+
+table, td, th, tr, col, caption, thead, tbody, tfoot, colgroup, dialog {
+background-color: rgb(51, 51, 51) !important; /* background color for all tables + */
+color: rgb(221, 221, 221) !important; /* color for all tables + */
+}
+
+img {
+filter: brightness(60%) !important; /* make all images have 75% brightness */
+background: rgba(34, 34, 34, 0.1)!important; /* background color of loading images (not all websites/images use this) */
+background-color: rgba(34, 34, 34, 0.1) !important; /* background color of loading images (not all websites/images use this) */
+background-image: linear-gradient(rgb(34, 34, 34),rgb(34, 34, 34)) !important;
+transition: ease 0.5s !important;
+/* border: 6px solid rgba(216, 216, 216, 0.2) !important; */
+}
+
+img:hover {
+transition: ease 0.5s !important;
+filter: brightness(80%) !important;
+}
+
+code, blockquote, q, nav, sup, sub, strong, mark, marker {
+background-color: rgb(51, 51, 51) !important; /* background color for code snippets and quotes + */
+color: rgba(255, 217, 0, 1) !important; /* color for code snippets and quotes + */
+}
+
+label, form, select, dialog, textarea, input:not([type="checkbox"], [type="radio"], [type="reset"], [type="button"], [type="submit"]) {
+background-color: rgb(51, 51, 51) !important; /* background color for forms and input areas + */
+color: rgb(221, 221, 221) !important; /* text color for forms and input areas + */
+border-color: rgb(187, 187, 187) !important; /* border color */
+border-width: 1px !important; /* add 1 pixel width border */
+-moz-appearance: none !important;
+}
+
+input:is([type="checkbox"], [type="radio"], [type="reset"], [type="button"], [type="submit"]) {
+background-color: rgb(204, 204, 204) !important;
+color: rgb(34, 34, 34) !important;
+filter: invert(100%) hue-rotate(180deg) !important;
+}
+
+/* label, form, select, dialog {
+background-color: rgb(51, 51, 51) !important;
+color: rgb(221, 221, 221) !important;
+border-color: rgb(187, 187, 187) !important;
+border-width: 1px !important;
+}
+textarea, input {
+filter: invert(75%) hue-rotate(180deg) !important;
+border-color: rgb(68, 68, 68) !important;
+border-width: 1px !important;
+} */
+
+button, .btn {
+background-color: rgb(68, 68, 68) !important; /* background color for buttons */
+border-color: rgb(151, 162, 255) !important; /* border color for buttons */
+color: rgb(255, 217, 0) !important; /* color for text on buttons */
+}
+
+a:link {
+color: rgb(238, 238, 238) !important; /* color for unvisited links */
+border-bottom: rgb(255, 217, 0) 1px solid !important; /* add underline to all clickable links */
+/*border-bottom: 1px solid !important;
+border-image: linear-gradient(to right, cyan, magenta) !important;
+border-image-slice: 1 !important; */
+}
+
+a:visited {
+color: rgb(144, 238, 144) !important; /* color for visited links */
+}
+
+a:hover {
+color: rgb(255, 166, 0) !important; /* color for links that mouse hovers over them */
+}
+
+/* a:focus {
+color: rgb(255, 255, 0) !important;
+} */
+
+a:active {
+color: rgb(255, 255, 0) !important; /* color for links that you clicked but haven't let go of the left mouse button */
+}
+
+@-moz-document domain("imdb.com") { 
+*:not(img, a) {
+background: rgb(34, 34, 34) !important;
+background-color: rgb(34, 34, 34) !important;}
+}
+
+@-moz-document domain("youtube.com") {
+img, img:hover {
+filter: unset !important;}
+}
+
+@-moz-document domain("bmi.ir") {
+img, img:hover {
+filter: brightness(40%) !important;}
+}
+
+@-moz-document domain("irancell.ir") {
+.gauge-value-text, .gauge-label-text {
+fill: #ccc !important;}
+}
+
+@-moz-document domain("github.com") {
+.user-status-circle-badge-container {
+bottom: -30px !important;}
+.Box-btn-octicon.btn-octicon {
+padding: 0px !important;}
+}
+
+@-moz-document domain("junguler.github.io") {
+a {color: #ccc !important;
+border: 1px solid #666 !important;
+padding-left: 15px !important; }
+}
+
+@-moz-document domain("time.ir") {
+#analogClock, .headerTop {filter: invert(100%) hue-rotate(180deg); hue-rotate(180deg);}
+}
+
+@-moz-document url-prefix("about:") {
+html, body, div {
+/* *:not(.checkbox-check, input, button, [class*='button-']) { */
+background-color: rgba(34, 34, 34, 0.01) !important;
+background: rgba(34, 34, 34, 0.01) !important;
+background-image: linear-gradient(rgb(34, 34, 34),rgb(34, 34, 34)) !important;}
+}
+
+@-moz-document regexp("^about:(downloads|logins|preferences).*") {
+*:not(.checkbox-check, input, button, [class*='button-']) {
+background-color: rgba(34, 34, 34, 0.01) !important;
+background: rgba(34, 34, 34, 0.01) !important;
+background-image: linear-gradient(rgb(34, 34, 34),rgb(34, 34, 34)) !important;
+color: rgb(221, 221, 221) !important; }
+}
+
+@-moz-document url("about:devtools-toolbox"), url-prefix("chrome://devtools/content/") {
+span { background-color: unset !important; }
+}
+
+@-moz-document url-prefix("about:"){
+window, page, html, .main-content, scrollbar {
+scrollbar-color: rgb(255, 105, 180) rgb(0, 0, 0) !important;
+scrollbar-width: thin !important; }
+}
+
+ 
+@-moz-document url-prefix("http://127.0.0.1:"), url-prefix("file://"), url-prefix("moz-extension:") {
+span { background-color: rgb(46, 46, 46) !important; }
+a:link { border-bottom: rgba(255, 217, 0, 0.5) 1px solid !important; }
+a:hover { color: rgb(144, 238, 144) !important ; filter: hue-rotate(180deg) !important; }
+a { background-color: rgb(46, 46, 46) !important};
+i { opacity: 80% !important; }
+/* title { color: #00000000 !important; }
+* { border-radius: 15px !important; } */
+/* span2 div form { opacity: 60% !important; } */ 
+}
+
+/* @-moz-document url-prefix("http://127.0.0.1:") {
+* { border-radius: unset !important;}
+a:link, a:active, a:visited { 
+border-bottom: rgb(238, 238, 238) 1px solid !important;
+color: rgb(238, 238, 238) !important;}
+a:hover {color: rgb(255, 166, 0) !important;
+border-bottom: rgb(255, 166, 0) 1px solid !important;}
+} */
+
+/*
+@-moz-document url-prefix("about:") {
+:root {
+--in-content-page-background: YOUR_COLOR_HERE!important;
+}
+}
+
+@-moz-document url(about:newtab), url(about:home) { 
+  .outer-wrapper {
+  /*background-color: black !important; /* Background color */
+    /*background-image: url(image.jpg) !important; /* Image in chrome folder */
+    /*background-size: cover !important;
+    background-attachment: fixed !important;
+    color: grey !important; /* Text color */
+  /*}
+}
+*/
