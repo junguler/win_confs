@@ -11,6 +11,7 @@ background-image: linear-gradient(rgba(34, 34, 34, 0.1),rgba(34, 34, 34, 0.1)) !
 #bf616a  #d08770  #a3be8c  #ebcb8b  #b48ead  
 */
 
+
 body {
 background-color: rgb(34, 34, 34) !important; /* background color */
 background: rgb(34, 34, 34) !important; /* background color */
@@ -19,11 +20,28 @@ color: rgb(221, 221, 221) !important; /* text color */
 opacity: 90% !important; /* make everything on the page 90% brightness */
 }
 
+/*
 * {
 scrollbar-color: rgb(151, 162, 255) rgb(64, 64, 64) !important;
 scrollbar-width: thin !important;
 border-radius: 0px !important;
 }
+*/
+
+*:not(img, video, a) {
+scrollbar-color: rgb(151, 162, 255) rgb(64, 64, 64) !important;
+scrollbar-width: thin !important;
+border-radius: 10px !important;
+}
+
+*:is(img, video) {
+border-radius: 30px !important;
+}
+
+*:is(p) {
+border-radius: 0px !important;
+}
+
 
 p {
 color: rgb(221, 221, 221) !important; /* text color */
@@ -103,8 +121,9 @@ color: rgb(255, 217, 0) !important; /* color for text on buttons */
 
 a:link {
 color: rgb(238, 238, 238) !important; /* color for unvisited links */
-border-bottom: rgb(255, 217, 0) 1px solid !important; /* add underline to all clickable links */
+border-bottom: rgb(151, 162, 255) 1px solid !important; /* add underline to all clickable links */
 /*border-bottom: 1px solid !important;
+border-bottom: rgb(255, 217, 0) 1px solid !important;
 border-image: linear-gradient(to right, cyan, magenta) !important;
 border-image-slice: 1 !important; */
 }
@@ -157,6 +176,10 @@ padding: 0px !important;}
 a {color: #ccc !important;
 border: 1px solid #666 !important;
 padding-left: 15px !important; }
+}
+
+@-moz-document domain("twitch.tv") {
+body {background-color: unset !important; color: unset !important;}
 }
 
 @-moz-document domain("time.ir") {
