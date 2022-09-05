@@ -42,7 +42,7 @@ border-radius: 0px !important;
 
 img {
 /* border-radius: 30px !important; */
-clip-path: polygon(30px 0%, calc(100% - 30px) 0%, 100% 30px, 100% calc(100% - 30px), calc(100% - 30px) 100%, 30px 100%, 0% calc(100% - 30px), 0% 30px) !important;
+clip-path: polygon(10% 0%, calc(100% - 10%) 0%, 100% 10%, 100% calc(100% - 10%), calc(100% - 10%) 100%, 10% 100%, 0% calc(100% - 10%), 0% 10%) !important;
 /* clip-path: polygon(30px 0%, calc(100% - 30px) 0%, 100% 30px, 100% calc(100% - 30px), calc(100% - 30px) 100%, 30px 100%, 0% calc(100% - 30px), 0% 30px) !important; */
 }
 
@@ -167,10 +167,11 @@ background: rgb(34, 34, 34) !important;
 background-color: rgb(34, 34, 34) !important;}
 }
 
+/*
 @-moz-document domain("youtube.com") {
 img {
-clip-path: polygon(20px 0%, calc(100% - 20px) 0%, 100% 20px, 100% calc(100% - 20px), calc(100% - 20px) 100%, 20px 100%, 0% calc(100% - 20px), 0% 20px) !important;}
-}
+clip-path: polygon(15% 0%, calc(100% - 15%) 0%, 100% 15%, 100% calc(100% - 15%), calc(100% - 15%) 100%, 15% 100%, 0% calc(100% - 15%), 0% 15%) !important;}
+} */
 
 @-moz-document domain("bmi.ir") {
 img, img:hover {
@@ -187,8 +188,6 @@ fill: #ccc !important;}
 bottom: -30px !important;}
 .Box-btn-octicon.btn-octicon {
 padding: 0px !important;}
-.avatar, .avatar-user {
-clip-path: polygon(10% 0%, calc(100% - 10%) 0%, 100% 10%, 100% calc(100% - 10%), calc(100% - 10%) 100%, 10% 100%, 0% calc(100% - 10%), 0% 10%) !important;}
 }
 
 @-moz-document domain("junguler.github.io") {
