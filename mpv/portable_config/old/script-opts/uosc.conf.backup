@@ -1,0 +1,46 @@
+# timeline size when fully retracted, 0 will hide it completely
+timeline_size_min=2.5
+
+# timeline opacity
+timeline_opacity=0.5
+
+# volume controls opacity and increase/decrese steps
+volume_opacity=0.5
+volume_step=5
+volume_font_scale=1.5
+
+# can be: none, flash, static
+pause_indicator=none
+
+# display buffer for streaming videos, syntax `color:opacity`,
+timeline_cached_ranges=FFFFFF:0.3
+
+# change size of winodw mode controls
+volume_size=30
+top_bar_size=30
+timeline_size_max=30
+
+# timeline chapters style: none, dots, lines, lines-top, lines-bottom
+chapters=lines
+
+# distances in pixels below which elements are fully faded in/out
+proximity_in=20
+proximity_out=60
+
+# playback speed widget, click to reset
+#speed=yes
+
+# always show uosc when audio is openend/playing]
+timeline_persistency=audio
+volume_persistency=audio
+speed_persistency=audio
+top_bar_persistency=audio
+
+timeline_font_scale=1.5
+volume_font_scale=1.5
+speed_font_scale=1.5
+menu_font_scale=1.5
+menu_opacity=0.7
+font_bold=yes
+
+# https://github.com/darsain/uosc/blob/master/uosc.conf
