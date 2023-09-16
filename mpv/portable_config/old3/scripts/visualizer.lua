@@ -140,7 +140,7 @@ local function get_visualizer(name, quality)
     local w, h, fps
 
     if quality == "verylow" then
-        w = 376
+        w = 640
         fps = 30
     elseif quality == "low" then
         w = 960

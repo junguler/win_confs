@@ -877,7 +877,7 @@ local function cache_stats()
 
     eval_ass_formatting()
     add_header(stats)
-    append(stats, "", {prefix=o.nl .. o.nl .. "", nl="", indent=""})
+    append(stats, "", {prefix=o.nl .. o.nl .. "Cache info:", nl="", indent=""})
 
     local info = mp.get_property_native("demuxer-cache-state")
     if info == nil then
@@ -888,7 +888,7 @@ local function cache_stats()
     local a = info["reader-pts"]
     local b = info["cache-end"]
 
-    append(stats, opt_time(a) .. " - " .. opt_time(b), {prefix = ""})
+    append(stats, opt_time(a) .. " - " .. opt_time(b), {prefix = "Packet queue:"})
 
     local r = nil
     if (a ~= nil) and (b ~= nil) then
@@ -902,7 +902,7 @@ local function cache_stats()
                                  nil, 0.8, 1)
         r_graph = o.prefix_sep .. r_graph
     end
-    append(stats, opt_time(r), {prefix = "", suffix = r_graph})
+    append(stats, opt_time(r), {prefix = "Read-ahead:", suffix = r_graph})
 
     -- These states are not necessarily exclusive. They're about potentially
     -- separate mechanisms, whose states may be decoupled.
@@ -927,13 +927,13 @@ local function cache_stats()
                                      nil, 0.8, 1)
         speed_graph = o.prefix_sep .. speed_graph
     end
-    append(stats, utils.format_bytes_humanized(speed) .. "/s", {prefix="",
+    append(stats, utils.format_bytes_humanized(speed) .. "/s", {prefix="Speed:",
         suffix=speed_graph})
 
     -- append(stats, utils.format_bytes_humanized(info["total-bytes"]),
            -- {prefix = "Total RAM:"})
     append(stats, utils.format_bytes_humanized(info["fw-bytes"]),
-           {prefix = ""})
+           {prefix = "Forward RAM:"})
 
     local fc = info["file-cache-bytes"]
     if fc ~= nil then
