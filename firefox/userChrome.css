@@ -12,8 +12,14 @@ border-radius: 0px !important;
 }
 
 #main-window { 
-border-radius: 5px !important; 
+border-radius: 4px !important; 
 }
+
+/*
+:root[tabsintitlebar] {
+appearance: -moz-win-glass!important;
+}
+*/
 
 .search-one-offs {
 display: none !important;

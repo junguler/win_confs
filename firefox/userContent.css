@@ -23,7 +23,9 @@ opacity: 90% !important; /* make everything on the page 90% brightness */
 
 * {
 scrollbar-color: rgb(151, 162, 255) rgb(64, 64, 64) !important;
+/*
 scrollbar-width: thin !important;
+*/
 border-radius: 0px !important;
 }
 
@@ -40,29 +42,57 @@ border-radius: 0px !important;
 }
 */
 
+
+/*
 img {
-/* border-radius: 30px !important; */
-clip-path: polygon(10% 0%, calc(100% - 10%) 0%, 100% 10%, 100% calc(100% - 10%), calc(100% - 10%) 100%, 10% 100%, 0% calc(100% - 10%), 0% 10%) !important;
-/* clip-path: polygon(30px 0%, calc(100% - 30px) 0%, 100% 30px, 100% calc(100% - 30px), calc(100% - 30px) 100%, 30px 100%, 0% calc(100% - 30px), 0% 30px) !important; */
+min-width: 40px !important;
+min-height: 40px !important;
+clip-path: polygon(20px 0%, calc(100% - 20px) 0%, 100% 20px, 100% calc(100% - 20px), calc(100% - 20px) 100%, 20px 100%, 0% calc(100% - 20px), 0% 20px) !important;
+clip-path: polygon(10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0% 90%, 0% 10%) !important;
+}
+*/
+
+img {
+--corner: min(20%, 20px);  
+clip-path: polygon(var(--corner) 0%, calc(100% - var(--corner)) 0%, 100% var(--corner), 100% calc(100% - var(--corner)), calc(100% - var(--corner)) 100%, var(--corner) 100%, 0% calc(100% - var(--corner)), 0% var(--corner)) !important;
 }
 
-video {
-clip-path: polygon(30px 0%, calc(100% - 30px) 0%, 100% 30px, 100% calc(100% - 30px), calc(100% - 30px) 100%, 30px 100%, 0% calc(100% - 30px), 0% 30px) !important;
-transition: ease 0.5s !important;
+video { 
+clip-path: polygon(20px 0%, calc(100% - 20px) 0%, 100% 20px, 100% calc(100% - 20px), calc(100% - 20px) 100%, 20px 100%, 0% calc(100% - 20px), 0% 20px) !important;
 }
 
 img:hover, video:hover {
-clip-path: polygon(0px 0%, calc(100% - 0px) 0%, 100% 0px, 100% calc(100% - 0px), calc(100% - 0px) 100%, 0px 100%, 0% calc(100% - 0px), 0% 0px) !important;
+clip-path: unset !important;
 }
+/*
+https://www.reddit.com/r/csshelp/comments/1dji80b/clippath_how_to_deal_with_small_images/
+https://codepen.io/NeilSchulz/pen/eYaVPGG
+/*
+
+/*
+img {
+border-radius: 30px !important;
+}
+
+video { 
+border-radius: 30px !important;
+}
+
+img:hover, video:hover {
+border-radius: 0px !important;
+}
+*/
+
+
 
 p {
 color: rgb(221, 221, 221) !important; /* text color */
 }
-
+/*
 span {
 background-color: rgb(54, 54, 54) !important;
 }
-
+*/
 b, em, i, u, em, small {
 color: rgba(255, 171, 171, 1) !important; /* color for bold text and glyphs */
 }
@@ -85,12 +115,14 @@ filter: brightness(60%) !important; /* make all images have 75% brightness */
 background: rgba(34, 34, 34, 0.1)!important; /* background color of loading images (not all websites/images use this) */
 background-color: rgba(34, 34, 34, 0.1) !important; /* background color of loading images (not all websites/images use this) */
 background-image: linear-gradient(rgb(34, 34, 34),rgb(34, 34, 34)) !important;
-transition: ease 0.5s !important;
-/* border: 6px solid rgba(216, 216, 216, 0.2) !important; */
+/* transition: ease 0.5s !important; */
+/* 
+border: 6px solid rgba(216, 216, 216, 0.2) !important; 
+*/
 }
 
 img:hover {
-transition: ease 0.5s !important;
+/* transition: ease 0.5s !important; */
 filter: brightness(80%) !important;
 }
 
@@ -167,11 +199,16 @@ background: rgb(34, 34, 34) !important;
 background-color: rgb(34, 34, 34) !important;}
 }
 
-/*
+
 @-moz-document domain("youtube.com") {
+* { font-style: normal; font-weight: normal; font-family: Sans-serif; }
+/*
 img {
-clip-path: polygon(15% 0%, calc(100% - 15%) 0%, 100% 15%, 100% calc(100% - 15%), calc(100% - 15%) 100%, 15% 100%, 0% calc(100% - 15%), 0% 15%) !important;}
-} */
+display: none !important;}
+https://www.w3schools.com/css/css_font.asp
+*/
+} 
+
 
 @-moz-document domain("bmi.ir") {
 img, img:hover {
@@ -188,13 +225,22 @@ fill: #ccc !important;}
 bottom: -30px !important;}
 .Box-btn-octicon.btn-octicon {
 padding: 0px !important;}
+/*
+img { min-width: unset !important;
+min-height: unset !important;
+clip-path: unset !important;}
+*/
 }
 
-@-moz-document domain("junguler.github.io") {
-a {color: #ccc !important;
-border: 1px solid #666 !important;
-padding-left: 15px !important; }
+@-moz-document domain("gradio.live") {
+  input[class] {
+    background-color: #A376FE !important;
+  }
 }
+
+/*
+* { font-family:monospace; }
+*/
 
 @-moz-document domain("twitch.tv") {
 body {background-color: unset !important; color: unset !important;}
@@ -202,6 +248,12 @@ body {background-color: unset !important; color: unset !important;}
 
 @-moz-document domain("time.ir") {
 #analogClock, .headerTop {filter: invert(100%) hue-rotate(180deg); hue-rotate(180deg);}
+}
+
+@-moz-document domain("127.0.0.1") {
+input:is([type="checkbox"], [type="radio"], [type="reset"], [type="button"], [type="submit"]) {
+background-color: #555 !important;
+filter: none !important;}
 }
 
 @-moz-document url-prefix("about:") {
@@ -240,6 +292,11 @@ i { opacity: 80% !important; }
 /* title { color: #00000000 !important; }
 * { border-radius: 15px !important; } */
 /* span2 div form { opacity: 60% !important; } */ 
+}
+
+@-moz-document domain("4chan.org") {
+html { padding: 0% 8% !important; }
+div .post, div .reply { width: 100% !important; }
 }
 
 /* @-moz-document url-prefix("http://127.0.0.1:") {
