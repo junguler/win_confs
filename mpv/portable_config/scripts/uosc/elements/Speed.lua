@@ -27,6 +27,7 @@ function Speed:on_coordinates()
 	self.notch_spacing = self.width / (self.notches + 1)
 	self.font_size = round(self.height * 0.48 * options.font_scale)
 end
+function Speed:on_options() self:on_coordinates() end
 
 function Speed:speed_step(speed, up)
 	if options.speed_step_is_factor then
@@ -86,12 +87,6 @@ function Speed:on_global_mouse_move()
 end
 
 function Speed:handle_cursor_up()
-	if self.proximity_raw == 0 then
-		-- Reset speed on short clicks
-		if self.dragging and math.abs(self.dragging.distance) < 6 and mp.get_time() - self.dragging.start_time < 0.15 then
-			mp.set_property_native('speed', 1)
-		end
-	end
 	self.dragging = nil
 	request_render()
 end
@@ -115,6 +110,7 @@ function Speed:render()
 			self:handle_cursor_down()
 			cursor.on_primary_up = function() self:handle_cursor_up() end
 		end
+		cursor.on_secondary_down = function() mp.set_property_native('speed', 1) end
 		cursor.on_wheel_down = function() self:handle_wheel_down() end
 		cursor.on_wheel_up = function() self:handle_wheel_up() end
 	end
@@ -125,7 +121,9 @@ function Speed:render()
 	local ass = assdraw.ass_new()
 
 	-- Background
-	ass:rect(self.ax, self.ay, self.bx, self.by, {color = bg, radius = 2, opacity = opacity * options.speed_opacity})
+	ass:rect(self.ax, self.ay, self.bx, self.by, {
+		color = bg, radius = state.radius, opacity = opacity * config.opacity.speed,
+	})
 
 	-- Coordinates
 	local ax, ay = self.ax, self.ay
@@ -163,7 +161,9 @@ function Speed:render()
 			end
 
 			ass:rect(notch_x - notch_thickness, notch_ay, notch_x + notch_thickness, notch_by, {
-				color = fg, border = 1, border_color = bg,
+				color = fg,
+				border = 1,
+				border_color = bg,
 				opacity = math.min(1.2 - (math.abs((notch_x - ax - half_width) / half_width)), 1) * opacity,
 			})
 		end
@@ -183,7 +183,11 @@ function Speed:render()
 	-- Speed value
 	local speed_text = (round(state.speed * 100) / 100) .. 'x'
 	ass:txt(half_x, ay + (notch_ay_big - ay) / 2, 5, speed_text, {
-		size = self.font_size, color = bgt, border = options.text_border, border_color = bg, opacity = opacity,
+		size = self.font_size,
+		color = bgt,
+		border = options.text_border * state.scale,
+		border_color = bg,
+		opacity = opacity,
 	})
 
 	return ass
