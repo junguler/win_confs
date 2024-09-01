@@ -1,5 +1,7 @@
 --[[ Stateless utilities missing in lua standard library ]]
 
+---@alias Shortcut {id: string; key: string; modifiers?: string; alt: boolean; ctrl: boolean; shift: boolean}
+
 ---@param number number
 function round(number) return math.floor(number + 0.5) end
 
@@ -16,6 +18,11 @@ function serialize_rgba(rgba)
 		opacity = clamp(0, tonumber(#a == 2 and a or 'ff', 16) / 255, 1),
 	}
 end
+
+-- Trim any white space from the start and end of the string.
+---@param str string
+---@return string
+function trim(str) return str:match('^%s*(.-)%s*$') end
 
 -- Trim any `char` from the end of the string.
 ---@param str string
@@ -80,8 +87,8 @@ end
 ---@param value any
 ---@return integer|nil
 function itable_index_of(itable, value)
-	for index, item in ipairs(itable) do
-		if item == value then return index end
+	for index = 1, #itable do
+		if itable[index] == value then return index end
 	end
 end
 
@@ -160,7 +167,7 @@ end
 ---@return T[]
 function itable_join(...)
 	local args, result = {...}, {}
-	for i = 1, #args do
+	for i = 1, select('#', ...) do
 		if args[i] then for _, value in ipairs(args[i]) do result[#result + 1] = value end end
 	end
 	return result
@@ -171,6 +178,10 @@ end
 function itable_append(target, source)
 	for _, value in ipairs(source) do target[#target + 1] = value end
 	return target
+end
+
+function itable_clear(itable)
+	for i = #itable, 1, -1 do itable[i] = nil end
 end
 
 ---@generic T
@@ -197,8 +208,8 @@ end
 ---@return T
 function table_assign(target, ...)
 	local args = {...}
-	for i = 1, #args do
-		if args[i] then for key, value in pairs(args[i]) do target[key] = value end end
+	for i = 1, select('#', ...) do
+		if type(args[i]) == 'table' then for key, value in pairs(args[i]) do target[key] = value end end
 	end
 	return target
 end
@@ -213,6 +224,19 @@ function table_assign_props(target, source, props)
 	return target
 end
 
+-- Assign props from `source` to `target` that are not in `props` set.
+---@generic T: table<any, any>
+---@param target T
+---@param source T
+---@param props table<string, boolean>
+---@return T
+function table_assign_exclude(target, source, props)
+	for key, value in pairs(source) do
+		if not props[key] then target[key] = value end
+	end
+	return target
+end
+
 -- `table_assign({}, input)` without loosing types :(
 ---@generic T: table<any, any>
 ---@param input T
@@ -221,7 +245,7 @@ function table_copy(input) return table_assign({}, input) end
 
 -- Converts itable values into `table<value, true>` map.
 ---@param values any[]
-function make_set(values)
+function create_set(values)
 	local result = {}
 	for _, value in ipairs(values) do result[value] = true end
 	return result
@@ -240,6 +264,26 @@ function serialize_key_value_list(input, value_sanitizer)
 	return result
 end
 
+---@param key string
+---@param modifiers? string
+---@return Shortcut
+function create_shortcut(key, modifiers)
+	key = key:lower()
+
+	local id_parts, modifiers_set
+	if modifiers then
+		id_parts = split(modifiers:lower(), '+')
+		table.sort(id_parts, function(a, b) return a < b end)
+		modifiers_set = create_set(id_parts)
+		modifiers = table.concat(id_parts, '+')
+	else
+		id_parts, modifiers, modifiers_set = {}, nil, {}
+	end
+	id_parts[#id_parts + 1] = key
+
+	return table_assign({id = table.concat(id_parts, '+'), key = key, modifiers = modifiers}, modifiers_set)
+end
+
 --[[ EASING FUNCTIONS ]]
 
 function ease_out_quart(x) return 1 - ((1 - x) ^ 4) end
@@ -254,7 +298,7 @@ function Class:new(...)
 	object:init(...)
 	return object
 end
-function Class:init() end
+function Class:init(...) end
 function Class:destroy() end
 
 function class(parent) return setmetatable({}, {__index = parent or Class}) end
@@ -265,7 +309,6 @@ CircularBuffer = class()
 function CircularBuffer:new(max_size) return Class.new(self, max_size) --[[@as CircularBuffer]] end
 function CircularBuffer:init(max_size)
 	self.max_size = max_size
-	self.size = 0
 	self.pos = 0
 	self.data = {}
 end
@@ -273,15 +316,14 @@ end
 function CircularBuffer:insert(item)
 	self.pos = self.pos % self.max_size + 1
 	self.data[self.pos] = item
-	if self.size < self.max_size then self.size = self.size + 1 end
 end
 
 function CircularBuffer:get(i)
-	return i <= self.size and self.data[(self.pos + i - 1) % self.size + 1] or nil
+	return i <= #self.data and self.data[(self.pos + i - 1) % #self.data + 1] or nil
 end
 
 local function iter(self, i)
-	if i == self.size then return nil end
+	if i == #self.data then return nil end
 	i = i + 1
 	return i, self:get(i)
 end
@@ -297,7 +339,7 @@ local function iter_rev(self, i)
 end
 
 function CircularBuffer:iter_rev()
-	return iter_rev, self, self.size + 1
+	return iter_rev, self, #self.data + 1
 end
 
 function CircularBuffer:head()
@@ -305,12 +347,11 @@ function CircularBuffer:head()
 end
 
 function CircularBuffer:tail()
-	if self.size < 1 then return nil end
-	return self.data[self.pos % self.size + 1]
+	if #self.data < 1 then return nil end
+	return self.data[self.pos % #self.data + 1]
 end
 
 function CircularBuffer:clear()
-	for i = self.size, 1, -1 do self.data[i] = nil end
-	self.size = 0
+	itable_clear(self.data)
 	self.pos = 0
 end

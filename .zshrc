@@ -75,8 +75,55 @@ export ZSH="/home/junguler/.oh-my-zsh"
 #export MANPAGER="sh -c 'col -bx | batcat -l man -p'"
 
 #PROMPT='%K{239}%F{226}█%F{214}█%f %D{%I:%M:%S} %F{154}█%F{34}█%f $(shrink_path -f) %F{45}█%F{33}█%F{177}█%k%F{127}█ %f'
-PROMPT='%F{3}██%f %D{%I:%M} %F{2}██%f $(shrink_path -f) %F{6}██%f n/a %F{5}██ %f'
+#PROMPT='%F{3}%f %D{%I:%M} %F{2}%f $(shrink_path -f) %F{6}%f n/a %F{5} %f'
+#PROMPT='%F{1}█%F{3}█%F{2}█%f %D{%I:%M} %F{2}█%F{6}█%f $(shrink_path -f) %F{6}█%F{5}█%f n/a %F{5}█%F{3}█%F{1}█%f '
+#PROMPT='%F{1}[%F{3}] %F{2}[%F{6}] %F{4}[%F{5}]%f '
+
+# ┃
+
+#local f___f='['
+#local e___e=']'
+local l_l='┃ '
+local r_r=' ┃'
+local o_o='┃'
+local s_s=''
+
+#local _01='$(($RANDOM%6+1))'
+
+local _01='$((RANDOM%6+1))'
+local _02='$((RANDOM%6+1))'
+local _03='$((RANDOM%6+1))'
+local _04='$((RANDOM%6+1))'
+local _05='$((RANDOM%6+1))'
+local _06='$((RANDOM%6+1))'
+local _07='$((RANDOM%6+1))'
+local _08='$((RANDOM%6+1))'
+local _09='$((RANDOM%6+1))'
+local _10='$((RANDOM%6+1))'
+local _11='$((RANDOM%6+1))'
+local _12='$((RANDOM%6+1))'
+local _17='$((RANDOM%6+1))'
+local _18='$((RANDOM%6+1))'
+
+local _13='$((RANDOM%7+232))'
+local _14='$((RANDOM%7+232))'
+local _15='$((RANDOM%7+232))'
+local _16='$((RANDOM%7+232))'
+
+
+#psvar=("[" "]")
+
+#PROMPT='%F{$(($RANDOM%6+1))}${l_l}%f%F{$(($RANDOM%6+1))}${r_r}%f${s_s}%F{$(($RANDOM%6+1))}${l_l}%f%F{$(($RANDOM%6+1))}${r_r}%f${s_s}%F{$(($RANDOM%6+1))}${l_l}%f%F{$(($RANDOM%6+1))}${r_r}%f${s_s}%F{$(($RANDOM%6+1))}${l_l}%f%F{$(($RANDOM%6+1))}${r_r} '
+PROMPT='%K{$_13}%F{$_17}${o_o}%F{$_01}${l_l}%F{$_02}%D{%H:%M}%F{$_03}${r_r}%F{$_04}%k${s_s}%K{$_14}${l_l}%F{$_05}%1~%F{$_06}${r_r}%k${s_s}%K{$_15}%F{$_07}${l_l}%F{$_08}n/a%F{$_09}${r_r}%k${s_s}%K{$_16}%F{$_10}${l_l}%F{$_11}%?%F{$_12}${r_r}%F{$_18}${o_o}%f%k '
+
+#PROMPT='%F{$(($RANDOM%6+1))}%1v%f%F{$(($RANDOM%6+1))}%2v %F{$(($RANDOM%6+1))}%1v%f%F{$(($RANDOM%6+1))}%2v %F{$(($RANDOM%6+1))}%1v%f%F{$(($RANDOM%6+1))}%2v %F{$(($RANDOM%6+1))}%1v%f%F{$(($RANDOM%6+1))}%2v '
+#PROMPT='%F{$(($RANDOM%6+1))}%1v%f%D{%H:%M}%F{$(($RANDOM%6+1))}%2v %F{$(($RANDOM%6+1))}%1v%f$(shrink_path -f)%F{$(($RANDOM%6+1))}%2v%f '
 #PROMPT='%K{237}%F{226} %F{214}%f %D{%I:%M} %F{154}%F{34}%f $(shrink_path -f) %F{45}%F{33}%F{177}%F{127} %f%k '
+
+#%F{$(($RANDOM%6+1))}
+
+#PROMPT='%F{$(($RANDOM%6+1))}[%f%D{%H:%M}%F{$(($RANDOM%6+1))}] %F{$(($RANDOM%6+1))}[%f$(shrink_path -f)%F{$(($RANDOM%6+1))}]%f %F{$(($RANDOM%6+1))}[%f%?%F{$(($RANDOM%6+1))}]%f '
+# https://gist.github.com/knadh/123bca5cfdae8645db750bfb49cb44b0
 
 # function for showing elapsed time in PROMPT
 function preexec() {
@@ -100,7 +147,23 @@ function precmd() {
     fi
 
 	#PROMPT='$(if [[ $? == 0 ]]; then echo "%F{226}%K{237} %F{214}%f %D{%I:%M} %F{154}%F{34}%f $(shrink_path -f) %F{45}%F{33} %f${elapsed} %F{177}%F{127} %f%k "; else echo "  %D{%H:%M}  $(shrink_path -f)  ${elapsed}   "; fi)'
-	PROMPT='$(if [[ $? == 0 ]]; then echo "%F{3}██%f %D{%I:%M} %F{2}██%f $(shrink_path -f) %F{6}██%f ${elapsed} %F{5}██%f "; else echo "██ %D{%H:%M} ██ $(shrink_path -f) ██ ${elapsed} ██ "; fi)'
+	#PROMPT='$(if [[ $? == 0 ]]; then echo "%F{3}%f %D{%I:%M} %F{2}%f $(shrink_path -f) %F{6}%f ${elapsed} %F{5}%f "; else echo " %D{%H:%M}  $(shrink_path -f)  ${elapsed}  "; fi)'
+	#PROMPT='$(if [[ $? == 0 ]]; then echo "%F{1}██%F{3}█%f %D{%I:%M} %F{3}█%F{2}██%f $(shrink_path -f) %F{6}██%F{4}█%f ${elapsed} %F{4}█%F{5}██%f "; else echo "██ %D{%H:%M} ██ $(shrink_path -f) ██ ${elapsed} ██ "; fi)'
+	#PROMPT='$(if [[ $? == 0 ]]; then echo "%F{1}██%F{3}██%F{2}██%f[%D{%H:%M}][$(shrink_path -f)][${elapsed}]%F{6}██%F{4}██%F{5}██%f "; else echo "██████[%D{%H:%M}][$(shrink_path -f)][${elapsed}]██████ "; fi)'
+	#PROMPT='$(if [[ $? == 0 ]]; then echo "%F{1}[%f%D{%H:%M}%F{3}] %F{2}[%f$(shrink_path -f)%F{6}] %F{4}[%f${elapsed}%F{5}]%f "; else echo "%K{7}%F{0}[%D{%H:%M}]%k %K{7}[$(shrink_path -f)]%k %K{7}[${elapsed}]%k%f "; fi)'
+	
+	#psvar=("$(shrink_path -f)" "$elapsed")
+	#local ok="%F{$((RANDOM%6+1))}[%f%D{%H:%M}%F{$((RANDOM%6+1))}] %F{$((RANDOM%6+1))}[%f%1v%F{$((RANDOM%6+1))}] %F{$((RANDOM%6+1))}[%f%2v%F{$((RANDOM%6+1))}]%f "
+	#local err="%K{7}%F{0}[%D{%H:%M}]%k %K{7}[%1v]%k %K{7}[%2v]%k%f "
+	
+	#psvar=("$(shrink_path -f)" "$elapsed" "[" "]")
+	#local ok="%F{$((RANDOM%6+1))}%3v%f%D{%H:%M}%F{$((RANDOM%6+1))}%4v %F{$((RANDOM%6+1))}%3v%f%1v%F{$((RANDOM%6+1))}%4v %F{$((RANDOM%6+1))}%3v%f%2v%F{$((RANDOM%6+1))}%4v%f "
+	#local err="%K{7}%F{0}%3v%D{%H:%M}%4v%k %K{7}%3v%1v%4v%k %K{7}%3v%2v%4v%k%f "
+	#PROMPT="%(?.$ok.$err)"
+	#PROMPT='%F{$(($RANDOM%6+1))}%1v%f%D{%H:%M}%F{$(($RANDOM%6+1))}%2v %F{$(($RANDOM%6+1))}%1v%f$(shrink_path -f)%F{$(($RANDOM%6+1))}%2v%f %F{$(($RANDOM%6+1))}%1v%f${elapsed}%F{$(($RANDOM%6+1))}%2v%f %F{$(($RANDOM%6+1))}%1v%f%?%F{$(($RANDOM%6+1))}%2v%f '
+	#PROMPT='%F{$(($RANDOM%6+1))}${l_l}%f%D{%H:%M}%F{$(($RANDOM%6+1))}${r_r}%f${s_s}%F{$(($RANDOM%6+1))}${l_l}%f%1~%F{$(($RANDOM%6+1))}${r_r}%f${s_s}%F{$(($RANDOM%6+1))}${l_l}%f${elapsed}%F{$(($RANDOM%6+1))}${r_r}%f${s_s}%F{$(($RANDOM%6+1))}${l_l}%f%?%F{$(($RANDOM%6+1))}${r_r}%f '
+	PROMPT='%K{$_13}%F{$_17}${o_o}%F{$_01}${l_l}%F{$_02}%D{%H:%M}%F{$_03}${r_r}%F{$_04}%k${s_s}%K{$_14}${l_l}%F{$_05}%1~%F{$_06}${r_r}%k${s_s}%K{$_15}%F{$_07}${l_l}%F{$_08}${elapsed}%F{$_09}${r_r}%k${s_s}%K{$_16}%F{$_10}${l_l}%F{$_11}%?%F{$_12}${r_r}%F{$_18}${o_o}%f%k '
+	
 	#PROMPT='$(if [[ $? == 0 ]]; then echo "%F{226}%K{239}█%F{214}█%f %D{%I:%M:%S} %F{154}█%F{34}█%f $(shrink_path -f) %F{45}█%F{33}█ %f${elapsed} %F{177}█%k%F{127}█ %f"; else echo "██ %D{%I:%M:%S} ██ $(shrink_path -f) ██ ${elapsed} ██ "; fi)'
     unset timer
   fi
@@ -115,17 +178,34 @@ alias ari='aria2c -c true --allow-overwrite false --always-resume true -j 4 -x 1
 alias pari='aria2c --http-proxy="http://127.0.0.1:9080" -c true --allow-overwrite false --always-resume true -j 4 -x 16 --disable-ipv6 true --check-certificate false'
 alias fari='aria2c --http-proxy="http://127.0.0.1:8580"'
 alias pcurl='curl -x socks5h://localhost:9050'
+alias gcurl='curl -x socks5h://localhost:9909'
+alias vcurl='curl -x socks5h://localhost:10808'
 alias twitch='mpv --ytdl-format=360p'
 alias pmpv='http_proxy=http://127.0.0.1:9080 mpv'
 #alias pmpv+='http_proxy=http://127.0.0.1:9080 mpv --ytdl-format=480p-2000k'
 #alias bat='batcat'
-alias ani-cli='/cygdrive/c/git/ani-cli/ani-cli'
+#alias ani-cli='/c/git/ani-cli/ani-cli'
 #alias radio='mpv --vf-add=hue=H="0.1*PI*t" '
 alias lynx_d='lynx --dump --listonly --nonumbers'
 alias dash_mpv='-o - | mpv -'
 alias zest='cd D:/ClipGrab/test/github15/tests/+'
 alias stream='streamlink'
+alias headset='proxychains_win32_x86 -f "c:\bin\proxychains.conf" "C:\Users\junguler\AppData\Local\headset\headset.exe"'
 #alias streamproxy='streamlink --http-proxy "socks5h://127.0.0.1:9050"'
+alias namedig='num=0; for i in *; do mv "$i" "$(printf '%04d' $num).${i#*.}"; ((num++)); done'
+alias namerem='rm *[12346789].jpg'
+alias mpvround='mpv --external-file="D:\ClipGrab\mask.png" --lavfi-complex="[vid1][vid2]overlay[vo]" --geometry=640x360-0-0'
+alias upscale='/cygdrive/c/git/realesrgan/realesrgan.exe'
+alias zgit='cd /C/git'
+alias zclipgrab='cd /D/clipgrab'
+alias zstable='cd /C/git/stable-diffusion-webui'
+alias gitunset='git config --global --unset https.proxy ; git config --global --unset http.proxy'
+alias gitgeph='git config --global http.proxy 'socks5://127.0.0.1:9909' ; git config --global https.proxy 'socks5://127.0.0.1:9909''
+alias gittor='git config --global http.proxy 'socks5://127.0.0.1:9050' ; git config --global https.proxy 'socks5://127.0.0.1:9050''
+alias gitv2ray='git config --global http.proxy 'socks5://127.0.0.1:10808' ; git config --global https.proxy 'socks5://127.0.0.1:10808''
+alias wget+='wget -c --content-disposition --trust-server-names'
+
+ttyd+ () { ttyd -B -o -p 8080 -t cursorStyle=bar -t disableLeaveAlert=true -t fontSize=24 -t fontweight=normal -t fontWeightBold=normal -t 'theme={"foreground":"#ccc","blue":"#459ee0","green":"#82b414","cyan":"#00c2f5","red":"#fe0094","magenta":"#A376FE","yellow":"#FD971F","brightBlue":"#459ee0","brightGreen":"#82b414","brightCyan":"#00c2f5","brightRed":"#fe0094","brightMagenta":"#A376FE","brightYellow":"#FD971F","brightWhite":"#ccc","background":"#1e1e1e"}' zsh ; }
 
 notor+ () { yt-dlp --proxy "" -f worst "$@" -o - | mpv - ; }
 
@@ -141,15 +221,17 @@ ffvil () { cat *.jpg | ffmpeg -framerate "$1" -f image2pipe -i - "$2"; }
 ffpri () { cat p-*.jpg | ffmpeg -framerate "$1" -f image2pipe -i - "$2"; }
 ffgmi () { cat g-*.jpg | ffmpeg -framerate "$1" -f image2pipe -i - "$2"; }
 
+ffspace () { http_proxy=http://127.0.0.1:10808 ffmpeg -i "$1" -codec copy "$2".mp4 ; }
+
 geometrize+ () { for i in *.png; do echo $i; geometrize_g++ -i $i -o g-$i."$1" -s "$2" -t "$3"; done; }
 
 pmpv+ () { http_proxy=http://127.0.0.1:9080 mpv --ytdl-format="$@"; while [ $? -ne 0 ] ; do torip ; http_proxy=http://127.0.0.1:9080 mpv --ytdl-format="$@"; done ;}
 
+tiny () { yt-dlp "$@" -f 160+140; while [ $? -ne 0 ]; do torip ; yt-dlp "$@" -f 160+140; done; }
 audi () { yt-dlp "$@" -f 140; while [ $? -ne 0 ]; do torip ; yt-dlp "$@" -f 140; done; }
 vide () { yt-dlp "$@" -f 18; while [ $? -ne 0 ]; do torip ; yt-dlp "$@" -f 18; done; }
 yout () { yt-dlp "$@"; while [ $? -ne 0 ]; do torip ; yt-dlp "$@"; done; }
 vihd () { yt-dlp "$@" -f bestvideo[ext=mp4]+140; while [ $? -ne 0 ]; do torip ; yt-dlp "$@" -f bestvideo[ext=mp4]+140; done; }
-mama () { yt-dlp "$@" -f 160+140 -k; while [ $? -ne 0 ]; do torip ; yt-dlp "$@" -f 160+140 -k; done; }
 #stream () { streamlink --player-passthrough hls "$@";}
 #streamp () { streamlink --https-proxy "socks5h://127.0.0.1:9050" "$@"; while [ $? -ne 0 ] ; do torip ; streamlink --https-proxy "socks5h://127.0.0.1:9050" "$@"; done ;}
 #streamr () { streamlink -o "output.ts" --https-proxy "socks5h://127.0.0.1:9050" "$@"; while [ $? -ne 0 ] ; do torip ; streamlink -o "output.ts" --https-proxy "socks5h://127.0.0.1:9050" "$@"; done ;}
@@ -160,8 +242,9 @@ aumpv () { http_proxy=http://127.0.0.1:9080 mpv.com --ytdl-format=140 "$@"; whil
 yompv () { http_proxy=http://127.0.0.1:9080 mpv --ytdl-format="$@"; while [ $? -ne 0 ] ; do torip ; http_proxy=http://127.0.0.1:9080 mpv --ytdl-format="$@"; done ;}
 fflis () { for f in ./*."$1"; do echo "file '$f'" >> mylist.txt; done; }
 ffmer () { ffmpeg -f concat -safe 0 -i mylist.txt -c copy output."$1"; rm mylist.txt; }
-streamproxy () { streamlink --http-proxy "socks5h://127.0.0.1:9050" "$@"; while [ $? -ne 0 ] ; do torip ; streamlink --http-proxy "socks5h://127.0.0.1:9050" "$@"; done ;}
-pstream () { streamlink --http-proxy "socks5h://127.0.0.1:9050" "$@"; while [ $? -ne 0 ] ; do torip ; streamlink --http-proxy "socks5h://127.0.0.1:9050" "$@"; done ;}
+streamproxy () { streamlink --http-proxy "socks5h://127.0.0.1:9050" "$@";}
+pstream () { streamlink --http-proxy "http://127.0.0.1:9080" "$@"; while [ $? -ne 0 ] ; do torip ; streamlink --http-proxy "http://127.0.0.1:9080" "$@"; done ;}
+vstream () { streamlink --http-proxy "http://127.0.0.1:10808" "$@"; while [ $? -ne 0 ] ; do torip ; streamlink --http-proxy "http://127.0.0.1:10808" "$@"; done ;}
 #pcurl () { curl -x socks5h://localhost:9050 "$@" ; while [ $? -ne 0 ] ; do torip ; curl -x socks5h://localhost:9050 "$@" ; done ;}
 
 fimpv () { http_proxy=http://127.0.0.1:8581 mpv --ytdl-format=18 "$@"; while [ $? -ne 0 ] ; do http_proxy=http://127.0.0.1:8580 mpv --ytdl-format=18 "$@" ; done ; }
@@ -174,6 +257,7 @@ fout () { yt-dlp --proxy HTTPS://127.0.0.1:8581/ "$@"; while [ $? -ne 0 ] ; do y
 fihd () { yt-dlp --proxy HTTPS://127.0.0.1:8581/ "$@" -f bestvideo[ext=mp4]+140; while [ $? -ne 0 ] ; do yt-dlp --proxy HTTPS://127.0.0.1:8580/ "$@" -f bestvideo[ext=mp4]+140; done; }
 fama () { yt-dlp --proxy HTTPS://127.0.0.1:8581/ "$@" -f 160+140 -k; while [ $? -ne 0 ] ; do yt-dlp --proxy HTTPS://127.0.0.1:8580/ "$@" -f 160+140 -k; done; }
 
+pg_sh () { lynx --dump "$1" | awk '/http/{print $2}' | grep -E ".$2" ; }
 pg_dl () { lynx --dump "$1" | awk '/http/{print $2}' | grep -E ".$2" | aria2c -i -; }
 pg_dl2 () { lynx --dump --listonly --nonumbers "$1" | grep -E ".$2" | aria2c -i -; }
 pg_dl2+ () { lynx --dump --listonly --nonumbers "$1" | grep -E ".$2" | grep -E "$3" | aria2c -i -; }
@@ -188,6 +272,7 @@ plugins=(
 	fast-syntax-highlighting
 	shrink-path
 	z
+	#command-time
 )
 
 # load autocompletions
@@ -212,7 +297,7 @@ source ~/.oh-my-zsh/custom/plugins/key-bindings.zsh
 
 #[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND="fd --type file --follow --hidden --color=always"
-export FZF_DEFAULT_OPTS="--ansi --height 100%"
+export FZF_DEFAULT_OPTS="--color=16 --height=100%"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="fd -t d --hidden"
 
@@ -224,11 +309,28 @@ ZSH_HIGHLIGHT_STYLES[path]=none
 ZSH_HIGHLIGHT_STYLES[path_prefix]=none
 
 
-export PATH=/cygdrive/c/bin/gmic:${PATH}
+export PATH=/C/bin/gmic:${PATH}
 #export PATH=~/bin:$PATH
 #export GOPATH=$HOME/go
 #export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 
+# PATH=/c/Users/junguler/AppData/Local/Programs/Python/Python310/:$PATH
+
+# This speeds up pasting w/ autosuggest
+# https://github.com/zsh-users/zsh-autosuggestions/issues/238
+pasteinit() {
+  OLD_SELF_INSERT=${${(s.:.)widgets[self-insert]}[2,3]}
+  zle -N self-insert url-quote-magic # I wonder if you'd need `.url-quote-magic`?
+}
+
+pastefinish() {
+  zle -N self-insert $OLD_SELF_INSERT
+}
+zstyle :bracketed-paste-magic paste-init pasteinit
+zstyle :bracketed-paste-magic paste-finish pastefinish
+
+
+WORDCHARS='*?._-/:=\'
 
 HISTSIZE=10000000
 SAVEHIST=10000000

@@ -11,6 +11,7 @@ function Timeline:init()
 	self.obstructed = false
 	self.size = 0
 	self.progress_size = 0
+	self.min_progress_size = 0 -- used for `flash-progress`
 	self.font_size = 0
 	self.top_border = 0
 	self.line_width = 0
@@ -26,7 +27,7 @@ function Timeline:init()
 end
 
 function Timeline:get_visibility()
-	return math.max(Elements:v('controls', 'proximity', 0), Element.get_visibility(self))
+	return math.max(Elements:maybe('controls', 'get_visibility') or 0, Element.get_visibility(self))
 end
 
 function Timeline:decide_enabled()
@@ -37,7 +38,8 @@ end
 
 function Timeline:get_effective_size()
 	if Elements:v('speed', 'dragging') then return self.size end
-	return self.progress_size + math.ceil((self.size - self.progress_size) * self:get_visibility())
+	local progress_size = math.max(self.min_progress_size, self.progress_size)
+	return progress_size + math.ceil((self.size - self.progress_size) * self:get_visibility())
 end
 
 function Timeline:get_is_hovered() return self.enabled and self.is_hovered end
@@ -47,7 +49,7 @@ function Timeline:update_dimensions()
 	self.top_border = round(options.timeline_border * state.scale)
 	self.line_width = round(options.timeline_line_width * state.scale)
 	self.progress_line_width = round(options.progress_line_width * state.scale)
-	self.font_size = math.floor(math.min((self.size + 60) * 0.2, self.size * 0.96) * options.font_scale)
+	self.font_size = math.floor(math.min((self.size + 60 * state.scale) * 0.2, self.size * 0.96) * options.font_scale)
 	local window_border_size = Elements:v('window_border', 'size', 0)
 	self.ax = window_border_size
 	self.ay = display.height - window_border_size - self.size - self.top_border
@@ -74,6 +76,24 @@ function Timeline:toggle_progress()
 	local current = self.progress_size
 	self:tween_property('progress_size', current, current > 0 and 0 or options.progress_size)
 	request_render()
+end
+
+function Timeline:flash_progress()
+	if self.enabled and options.flash_duration > 0 then
+		if not self._flash_progress_timer then
+			self._flash_progress_timer = mp.add_timeout(options.flash_duration / 1000, function()
+				self:tween_property('min_progress_size', options.progress_size, 0)
+			end)
+			self._flash_progress_timer:kill()
+		end
+
+		self:tween_stop()
+		self.min_progress_size = options.progress_size
+		request_render()
+		self._flash_progress_timer.timeout = options.flash_duration / 1000
+		self._flash_progress_timer:kill()
+		self._flash_progress_timer:resume()
+	end
 end
 
 function Timeline:get_time_at_x(x)
@@ -108,7 +128,6 @@ function Timeline:handle_cursor_down()
 	self.pressed = {pause = state.pause, distance = 0, last = {x = cursor.x, y = cursor.y}}
 	mp.set_property_native('pause', true)
 	self:set_from_cursor()
-	cursor.on_primary_up = function() self:handle_cursor_up() end
 end
 function Timeline:on_prop_duration() self:decide_enabled() end
 function Timeline:on_prop_time() self:decide_enabled() end
@@ -119,7 +138,10 @@ function Timeline:on_prop_fullormaxed()
 	self:update_dimensions()
 end
 function Timeline:on_display() self:update_dimensions() end
-function Timeline:on_options() self:update_dimensions() end
+function Timeline:on_options()
+	self:decide_progress_size()
+	self:update_dimensions()
+end
 function Timeline:handle_cursor_up()
 	if self.pressed then
 		mp.set_property_native('pause', self.pressed.pause)
@@ -141,8 +163,6 @@ function Timeline:on_global_mouse_move()
 		end
 	end
 end
-function Timeline:handle_wheel_up() mp.commandv('seek', -options.timeline_step) end
-function Timeline:handle_wheel_down() mp.commandv('seek', options.timeline_step) end
 
 function Timeline:render()
 	if self.size == 0 then return end
@@ -158,24 +178,31 @@ function Timeline:render()
 
 	if self.proximity_raw == 0 then
 		self.is_hovered = true
-		cursor.on_primary_down = function() self:handle_cursor_down() end
-		cursor.on_wheel_down = function() self:handle_wheel_down() end
-		cursor.on_wheel_up = function() self:handle_wheel_up() end
 	end
-
-	if self.pressed then
-		cursor.on_primary_up = function() self:handle_cursor_up() end
+	if visibility > 0 then
+		cursor:zone('primary_down', self, function()
+			self:handle_cursor_down()
+			cursor:once('primary_up', function() self:handle_cursor_up() end)
+		end)
+		if options.timeline_step ~= 0 then
+			cursor:zone('wheel_down', self, function()
+				mp.commandv('seek', config.timeline_step, config.timeline_step_flag)
+			end)
+			cursor:zone('wheel_up', self, function()
+				mp.commandv('seek', -config.timeline_step, config.timeline_step_flag)
+			end)
+		end
 	end
 
 	local ass = assdraw.ass_new()
+	local progress_size = math.max(self.min_progress_size, self.progress_size)
 
-	-- Text opacity rapidly drops to 0 just before it starts overflowing, or before it reaches self.progress_size
-	local hide_text_below = math.max(self.font_size * 0.8, self.progress_size * 2)
+	-- Text opacity rapidly drops to 0 just before it starts overflowing, or before it reaches progress_size
+	local hide_text_below = math.max(self.font_size * 0.8, progress_size * 2)
 	local hide_text_ramp = hide_text_below / 2
 	local text_opacity = clamp(0, size - hide_text_below, hide_text_ramp) / hide_text_ramp
 
 	local tooltip_gap = round(2 * state.scale)
-	local tooltip_margin = round(10 * state.scale)
 	local timestamp_gap = tooltip_gap
 
 	local spacing = math.max(math.floor((self.size - self.font_size) / 2.5), 4)
@@ -190,8 +217,8 @@ function Timeline:render()
 	local line_width = 0
 
 	if is_line then
-		local minimized_fraction = 1 - math.min((size - self.progress_size) / ((self.size - self.progress_size) / 8), 1)
-		local progress_delta = self.progress_size > 0 and self.progress_line_width - self.line_width or 0
+		local minimized_fraction = 1 - math.min((size - progress_size) / ((self.size - progress_size) / 8), 1)
+		local progress_delta = progress_size > 0 and self.progress_line_width - self.line_width or 0
 		line_width = self.line_width + (progress_delta * minimized_fraction)
 		fax = bax + (self.width - line_width) * progress
 		fbx = fax + line_width
@@ -228,15 +255,11 @@ function Timeline:render()
 	ass:rect(fax, fay, fbx, fby, {opacity = config.opacity.position})
 
 	-- Uncached ranges
-	local buffered_playtime = nil
 	if state.uncached_ranges then
 		local opts = {size = 80, anchor_y = fby}
 		local texture_char = visibility > 0 and 'b' or 'a'
 		local offset = opts.size / (visibility > 0 and 24 or 28)
 		for _, range in ipairs(state.uncached_ranges) do
-			if not buffered_playtime and (range[1] > state.time or range[2] > state.time) then
-				buffered_playtime = (range[1] - state.time) / (state.speed or 1)
-			end
 			if options.timeline_cache then
 				local ax = range[1] < 0.5 and bax or math.floor(t2x(range[1]))
 				local bx = range[2] > state.duration - 0.5 and bbx or math.ceil(t2x(range[2]))
@@ -258,10 +281,8 @@ function Timeline:render()
 
 	-- Chapters
 	local hovered_chapter = nil
-	if (config.opacity.chapters > 0
-			and (#state.chapters > 0 or state.ab_loop_a or state.ab_loop_b)
-		) then
-		local diamond_radius = foreground_size < 3 and foreground_size or self.chapter_size
+	if (config.opacity.chapters > 0 and (#state.chapters > 0 or state.ab_loop_a or state.ab_loop_b)) then
+		local diamond_radius = math.min(math.max(1, foreground_size * 0.8), self.chapter_size)
 		local diamond_radius_hovered = diamond_radius * 2
 		local diamond_border = options.timeline_border and math.max(options.timeline_border, 1) or 1
 
@@ -292,15 +313,18 @@ function Timeline:render()
 						if cursor_chapter_delta <= diamond_radius_hovered and cursor_chapter_delta < closest_delta then
 							hovered_chapter, closest_delta = chapter, cursor_chapter_delta
 							self.is_hovered = true
-							cursor.on_primary_down = function()
-								mp.commandv('seek', hovered_chapter.time, 'absolute+exact')
-							end
 						end
 					end
 				end
 
 				for i, chapter in ipairs(state.chapters) do
 					if chapter ~= hovered_chapter then draw_chapter(chapter.time, diamond_radius) end
+					local circle = {point = {x = t2x(chapter.time), y = fay - 1}, r = diamond_radius_hovered}
+					if visibility > 0 then
+						cursor:zone('primary_click', circle, function()
+							mp.commandv('seek', chapter.time, 'absolute+exact')
+						end)
+					end
 				end
 
 				-- Render hovered chapter above others
@@ -339,42 +363,45 @@ function Timeline:render()
 		end
 	end
 
-	local function draw_timeline_text(x, y, align, text, opts)
+	local function draw_timeline_timestamp(x, y, align, timestamp, opts)
 		opts.color, opts.border_color = fgt, fg
 		opts.clip = '\\clip(' .. foreground_coordinates .. ')'
-		ass:txt(x, y, align, text, opts)
+		local func = options.time_precision > 0 and ass.timestamp or ass.txt
+		func(ass, x, y, align, timestamp, opts)
 		opts.color, opts.border_color = bgt, bg
 		opts.clip = '\\iclip(' .. foreground_coordinates .. ')'
-		ass:txt(x, y, align, text, opts)
+		func(ass, x, y, align, timestamp, opts)
 	end
 
 	-- Time values
 	if text_opacity > 0 then
-		local time_opts = {size = self.font_size, opacity = text_opacity, border = 4}
+		local time_opts = {size = self.font_size, opacity = text_opacity, border = 0 * state.scale}
 		-- Upcoming cache time
-		if buffered_playtime and options.buffered_time_threshold > 0
-			and buffered_playtime < options.buffered_time_threshold then
-			local x, align = fbx + 5, 4
+		local cache_duration = state.cache_duration and state.cache_duration / state.speed or nil
+		if cache_duration and options.buffered_time_threshold > 0
+			and cache_duration < options.buffered_time_threshold then
+			local margin = 5 * state.scale
+			local x, align = fbx + margin, 4
 			local cache_opts = {
 				size = self.font_size * 0.8, opacity = text_opacity * 0.6, border = options.text_border * state.scale,
 			}
-			local human = round(math.max(buffered_playtime, 0)) .. 's'
+			local human = round(cache_duration) .. 's'
 			local width = text_width(human, cache_opts)
 			local time_width = timestamp_width(state.time_human, time_opts)
 			local time_width_end = timestamp_width(state.destination_time_human, time_opts)
-			local min_x, max_x = bax + spacing + 5 + time_width, bbx - spacing - 5 - time_width_end
+			local min_x, max_x = bax + spacing + margin + time_width, bbx - spacing - margin - time_width_end
 			if x < min_x then x = min_x elseif x + width > max_x then x, align = max_x, 6 end
-			draw_timeline_text(x, fcy, align, human, cache_opts)
+			draw_timeline_timestamp(x, fcy, align, human, cache_opts)
 		end
 
 		-- Elapsed time
 		if state.time_human then
-			draw_timeline_text(bax + spacing, fcy, 4, state.time_human, time_opts)
+			draw_timeline_timestamp(bax + spacing, fcy, 4, state.time_human, time_opts)
 		end
 
 		-- End time
 		if state.destination_time_human then
-			draw_timeline_text(bbx - spacing, fcy, 6, state.destination_time_human, time_opts)
+			draw_timeline_timestamp(bbx - spacing, fcy, 6, state.destination_time_human, time_opts)
 		end
 	end
 
@@ -388,11 +415,13 @@ function Timeline:render()
 		-- 0.5 to switch when the pixel is half filled in
 		local color = ((fax - 0.5) < cursor_x and cursor_x < (fbx + 0.5)) and bg or fg
 		local ax, ay, bx, by = cursor_x - 0.5, fay, cursor_x + 0.5, fby
-		ass:rect(ax, ay, bx, by, {color = color, opacity = 0.2})
-		local tooltip_anchor = {ax = ax, ay = ay, bx = bx, by = by}
+		ass:rect(ax, ay, bx, by, {color = color, opacity = 0.33})
+		local tooltip_anchor = {ax = ax, ay = ay - self.top_border, bx = bx, by = by}
 
 		-- Timestamp
-		local opts = {size = self.font_size, offset = timestamp_gap, margin = tooltip_margin}
+		local opts = {
+			size = self.font_size, offset = timestamp_gap, margin = tooltip_gap, timestamp = options.time_precision > 0,
+		}
 		local hovered_time_human = format_time(hovered_seconds, state.duration)
 		opts.width_overwrite = timestamp_width(hovered_time_human, opts)
 		tooltip_anchor = ass:tooltip(tooltip_anchor, hovered_time_human, opts)
@@ -404,8 +433,7 @@ function Timeline:render()
 			and thumbnail.height ~= 0
 		then
 			local border = math.ceil(math.max(2, state.radius / 2) * state.scale)
-			local margin_x, margin_y = tooltip_margin, tooltip_gap
-			local thumb_x_margin, thumb_y_margin = border + margin_x + bax, border + margin_y
+			local thumb_x_margin, thumb_y_margin = border + tooltip_gap + bax, border + tooltip_gap
 			local thumb_width, thumb_height = thumbnail.width, thumbnail.height
 			local thumb_x = round(clamp(
 				thumb_x_margin,
@@ -428,7 +456,7 @@ function Timeline:render()
 		end
 
 		-- Chapter title
-		if #state.chapters > 0 then
+		if config.opacity.chapters > 0 and #state.chapters > 0 then
 			local _, chapter = itable_find(state.chapters, function(c) return hovered_seconds >= c.time end,
 				#state.chapters, 1)
 			if chapter and not chapter.is_end_only then
@@ -439,7 +467,7 @@ function Timeline:render()
 					bold = true,
 					width_overwrite = chapter.title_wrapped_width * self.font_size,
 					lines = chapter.title_lines,
-					margin = tooltip_margin,
+					margin = tooltip_gap,
 				})
 			end
 		end

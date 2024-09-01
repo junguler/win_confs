@@ -35,6 +35,12 @@ function CycleButton:init(id, props)
 	end
 
 	local function handle_change(name, value)
+		-- Removes unnecessary floating point digits from values like `2.00000`.
+		-- This happens when observing properties like `speed`.
+		if type(value) == 'string' and string.match(value, '^[%+%-]?%d+%.%d+$') then
+			value = tonumber(value)
+		end
+
 		value = type(value) == 'boolean' and (value and 'yes' or 'no') or tostring(value or '')
 		local index = itable_find(self.states, function(state) return state.value == value end)
 		self.current_state_index = index or 1
@@ -52,7 +58,7 @@ function CycleButton:init(id, props)
 		self['on_prop_' .. self.prop] = function(self, value) handle_change(self.prop, value) end
 		handle_change(self.prop, state[self.prop])
 	else
-		self:observe_mp_property(self.prop, handle_change)
+		self:observe_mp_property(self.prop, 'string', handle_change)
 	end
 end
 

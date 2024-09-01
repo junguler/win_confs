@@ -85,30 +85,107 @@ end
 -- Tooltip.
 ---@param element Rect
 ---@param value string|number
----@param opts? {size?: number; offset?: number; bold?: boolean; italic?: boolean; width_overwrite?: number, margin?: number; responsive?: boolean; lines?: integer}
+---@param opts? {size?: number; align?: number; offset?: number; bold?: boolean; italic?: boolean; width_overwrite?: number, margin?: number; responsive?: boolean; lines?: integer, timestamp?: boolean; invert_colors?: boolean}
 function ass_mt:tooltip(element, value, opts)
 	if value == '' then return end
 	opts = opts or {}
 	opts.size = opts.size or round(16 * state.scale)
 	opts.border = options.text_border * state.scale
-	opts.border_color = bg
+	opts.border_color = opts.invert_colors and fg or bg
 	opts.margin = opts.margin or round(10 * state.scale)
 	opts.lines = opts.lines or 1
+	opts.color = opts.invert_colors and bg or fg
+	local offset = opts.offset or 2
 	local padding_y = round(opts.size / 6)
 	local padding_x = round(opts.size / 3)
-	local offset = opts.offset or 2
-	local align_top = opts.responsive == false or element.ay - offset > opts.size * 2
-	local x = element.ax + (element.bx - element.ax) / 2
-	local y = align_top and element.ay - offset or element.by + offset
-	local width_half = (opts.width_overwrite or text_width(value, opts)) / 2 + padding_x
-	local min_edge_distance = width_half + opts.margin + Elements:v('window_border', 'size', 0)
-	x = clamp(min_edge_distance, x, display.width - min_edge_distance)
-	local ax, bx = round(x - width_half), round(x + width_half)
-	local ay = (align_top and y - opts.size * opts.lines - 2 * padding_y or y)
-	local by = (align_top and y or y + opts.size * opts.lines + 2 * padding_y)
-	self:rect(ax, ay, bx, by, {color = bg, opacity = config.opacity.tooltip, radius = state.radius})
-	self:txt(x, align_top and y - padding_y or y + padding_y, align_top and 2 or 8, value, opts)
+	local width = (opts.width_overwrite or text_width(value, opts)) + padding_x * 2
+	local height = opts.size * opts.lines + 2 * padding_y
+	local width_half, height_half = width / 2, height / 2
+	local margin = opts.margin + Elements:v('window_border', 'size', 0)
+	local align = opts.align or 8
+
+	local x, y = 0, 0 -- center of tooltip
+
+	-- Flip alignment to other side when not enough space
+	if opts.responsive ~= false then
+		if align == 8 then
+			if element.ay - offset - height < margin then align = 2 end
+		elseif align == 2 then
+			if element.by + offset + height > display.height - margin then align = 8 end
+		elseif align == 6 then
+			if element.bx + offset + width > display.width - margin then align = 4 end
+		elseif align == 4 then
+			if element.ax - offset - width < margin then align = 6 end
+		end
+	end
+
+	-- Calculate tooltip center based on alignment
+	if align == 8 or align == 2 then
+		x = clamp(margin + width_half, element.ax + (element.bx - element.ax) / 2, display.width - margin - width_half)
+		y = align == 8 and element.ay - offset - height_half or element.by + offset + height_half
+	else
+		x = align == 6 and element.bx + offset + width_half or element.ax - offset - width_half
+		y = clamp(margin + height_half, element.ay + (element.by - element.ay) / 2, display.height - margin - height_half)
+	end
+
+	-- Draw
+	local ax, ay, bx, by = round(x - width_half), round(y - height_half), round(x + width_half), round(y + height_half)
+	self:rect(ax, ay, bx, by, {
+		color = opts.invert_colors and fg or bg, opacity = config.opacity.tooltip, radius = state.radius
+	})
+	local func = opts.timestamp and self.timestamp or self.txt
+	func(self, x, y, 5, tostring(value), opts)
 	return {ax = element.ax, ay = ay, bx = element.bx, by = by}
+end
+
+-- Timestamp with each digit positioned as if it was replaced with 0
+---@param x number
+---@param y number
+---@param align number
+---@param timestamp string
+---@param opts {size: number; opacity?: number|{primary?: number; border?: number, shadow?: number, main?: number}}
+function ass_mt:timestamp(x, y, align, timestamp, opts)
+	local widths, width_total = {}, 0
+	zero_rep = timestamp_zero_rep(timestamp)
+	for i = 1, #zero_rep do
+		local width = text_width(zero_rep:sub(i, i), opts)
+		widths[i] = width
+		width_total = width_total + width
+	end
+
+	-- shift x and y to fit align 5
+	local mod_align = align % 3
+	if mod_align == 0 then
+		x = x - width_total
+	elseif mod_align == 2 then
+		x = x - width_total / 2
+	end
+	if align < 4 then
+		y = y - opts.size / 2
+	elseif align > 6 then
+		y = y + opts.size / 2
+	end
+
+	local opacity = opts.opacity
+	local primary_opacity
+	if type(opacity) == 'table' then
+		opts.opacity = {main = opacity.main, border = opacity.border, shadow = opacity.shadow, primary = 0}
+		primary_opacity = opacity.primary or opacity.main
+	else
+		opts.opacity = {main = opacity, primary = 0}
+		primary_opacity = opacity
+	end
+	for i, width in ipairs(widths) do
+		self:txt(x + width / 2, y, 5, timestamp:sub(i, i), opts)
+		x = x + width
+	end
+	x = x - width_total
+	opts.opacity = {main = 0, primary = primary_opacity or 1}
+	for i, width in ipairs(widths) do
+		self:txt(x + width / 2, y, 5, timestamp:sub(i, i), opts)
+		x = x + width
+	end
+	opts.opacity = opacity
 end
 
 -- Rectangle.

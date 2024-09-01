@@ -209,17 +209,6 @@ https://www.w3schools.com/css/css_font.asp
 */
 } 
 
-
-@-moz-document domain("bmi.ir") {
-img, img:hover {
-filter: brightness(40%) !important;}
-}
-
-@-moz-document domain("irancell.ir") {
-.gauge-value-text, .gauge-label-text {
-fill: #ccc !important;}
-}
-
 @-moz-document domain("github.com") {
 .user-status-circle-badge-container {
 bottom: -30px !important;}
@@ -294,9 +283,8 @@ i { opacity: 80% !important; }
 /* span2 div form { opacity: 60% !important; } */ 
 }
 
-@-moz-document domain("4chan.org") {
-html { padding: 0% 8% !important; }
-div .post, div .reply { width: 100% !important; }
+@-moz-document domain("filimo.com"), domain("aparat.com") {
+.romeo .romeo-overlay { z-index:-1 !important; }
 }
 
 /* @-moz-document url-prefix("http://127.0.0.1:") {

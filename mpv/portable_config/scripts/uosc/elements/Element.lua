@@ -1,4 +1,4 @@
----@alias ElementProps {enabled?: boolean; render_order?: number; ax?: number; ay?: number; bx?: number; by?: number; ignores_menu?: boolean; anchor_id?: string;}
+---@alias ElementProps {enabled?: boolean; render_order?: number; ax?: number; ay?: number; bx?: number; by?: number; ignores_curtain?: boolean; anchor_id?: string;}
 
 -- Base class all elements inherit from.
 ---@class Element : Class
@@ -21,8 +21,8 @@ function Element:init(id, props)
 	self.min_visibility = 0
 	---@type number `0-1` factor to force a visibility value. Used for flashing, fading out, and other animations
 	self.forced_visibility = nil
-	---@type boolean Render this element even when menu is open.
-	self.ignores_menu = false
+	---@type boolean Show this element even when curtain is visible.
+	self.ignores_curtain = false
 	---@type nil|string ID of an element from which this one should inherit visibility.
 	self.anchor_id = nil
 	---@type fun()[] Disposer functions called when element is destroyed.
@@ -35,7 +35,7 @@ function Element:init(id, props)
 		local function getTo() return self.proximity end
 		local function onTweenEnd() self.forced_visibility = nil end
 		if self.enabled then
-			self:tween_property('forced_visibility', 1, getTo, onTweenEnd)
+			self:tween_property('forced_visibility', self:get_visibility(), getTo, onTweenEnd)
 		else
 			onTweenEnd()
 		end
@@ -91,9 +91,9 @@ end
 
 -- Decide elements visibility based on proximity and various other factors
 function Element:get_visibility()
-	-- Hide when menu is open, unless this is a menu
-	---@diagnostic disable-next-line: undefined-global
-	if not self.ignores_menu and Menu and Menu:is_open() then return 0 end
+	-- Hide when curtain is visible, unless this elements ignores it
+	local min_order = (Elements.curtain.opacity > 0 and not self.ignores_curtain) and Elements.curtain.render_order or 0
+	if self.render_order < min_order then return 0 end
 
 	-- Persistency
 	if self:is_persistent() then return 1 end
@@ -182,9 +182,12 @@ end
 
 -- Automatically registers disposer for the observer.
 ---@param name string
----@param callback fun(name: string, value: any)
-function Element:observe_mp_property(name, callback)
-	mp.observe_property(name, 'native', callback)
+---@param type_or_callback string|fun(name: string, value: any)
+---@param callback_maybe nil|fun(name: string, value: any)
+function Element:observe_mp_property(name, type_or_callback, callback_maybe)
+	local callback = type(type_or_callback) == 'function' and type_or_callback or callback_maybe
+	local prop_type = type(type_or_callback) == 'string' and type_or_callback or 'native'
+	mp.observe_property(name, prop_type, callback)
 	self:register_disposer(function() mp.unobserve_property(callback) end)
 end
 

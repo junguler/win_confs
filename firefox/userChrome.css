@@ -7,6 +7,7 @@ max-height: var(--tab-min-height);
 }
 .tab-label{ line-height: 20px !important; }
 
+/*
 * {
 border-radius: 0px !important;
 }
@@ -14,6 +15,7 @@ border-radius: 0px !important;
 #main-window { 
 border-radius: 4px !important; 
 }
+*/
 
 /*
 :root[tabsintitlebar] {

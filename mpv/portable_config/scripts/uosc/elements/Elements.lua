@@ -32,22 +32,18 @@ function Elements:remove(idOrElement)
 end
 
 function Elements:update_proximities()
-	local menu_only = Elements.menu ~= nil
+	local curtain_render_order = Elements.curtain.opacity > 0 and Elements.curtain.render_order or 0
 	local mouse_leave_elements = {}
 	local mouse_enter_elements = {}
 
-	-- Calculates proximities and opacities for defined elements
+	-- Calculates proximities for all elements
 	for _, element in self:ipairs() do
 		if element.enabled then
 			local previous_proximity_raw = element.proximity_raw
 
-			-- If menu is open, all other elements have to be disabled
-			if menu_only then
-				if element.ignores_menu then
-					element:update_proximity()
-				else
-					element:reset_proximity()
-				end
+			-- If curtain is open, we disable all elements set to rendered below it
+			if not element.ignores_curtain and element.render_order < curtain_render_order then
+				element:reset_proximity()
 			else
 				element:update_proximity()
 			end
@@ -74,8 +70,12 @@ end
 -- Toggles passed elements' min visibilities between 0 and 1.
 ---@param ids string[] IDs of elements to peek.
 function Elements:toggle(ids)
-	local has_invisible = itable_find(ids, function(id) return Elements[id] and Elements[id]:get_visibility() ~= 1 end)
+	local has_invisible = itable_find(ids, function(id)
+		return Elements[id] and Elements[id].enabled and Elements[id]:get_visibility() ~= 1
+	end)
+
 	self:set_min_visibility(has_invisible and 1 or 0, ids)
+
 	-- Reset proximities when toggling off. Has to happen after `set_min_visibility`,
 	-- as that is using proximity as a tween starting point.
 	if not has_invisible then
@@ -101,8 +101,13 @@ end
 -- Flash passed elements.
 ---@param ids string[] IDs of elements to peek.
 function Elements:flash(ids)
-	local elements = itable_filter(self._all, function(element) return itable_index_of(ids, element.id) ~= nil end)
+	local elements = itable_filter(self._all, function(element) return itable_has(ids, element.id) end)
 	for _, element in ipairs(elements) do element:flash() end
+
+	-- Special case for 'progress' since it's a state of timeline, not an element
+	if itable_has(ids, 'progress') and not itable_has(ids, 'timeline') then
+		Elements:maybe('timeline', 'flash_progress')
+	end
 end
 
 ---@param name string Event name.
