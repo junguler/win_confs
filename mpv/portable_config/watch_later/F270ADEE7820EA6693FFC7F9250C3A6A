@@ -1,4 +1,0 @@
-start=2.404354
-volume=50.000000
-fullscreen=yes
-vf=drawbox=w=iw:h=ih:color=%10%00FFFF@0.5,drawbox=x=3:y=3:w=iw-6:h=ih-6:color=%10%00FF00@0.5,drawbox=x=6:y=6:w=iw-12:h=ih-12:color=%10%FFFF00@0.5,hue=H=%8%0.1*PI*t
