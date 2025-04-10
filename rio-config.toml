@@ -1,0 +1,34 @@
+[shell]
+program = "C:\\cygwin64\\bin\\fish.exe"
+args = ["--login", "-i"]
+
+confirm-before-quit = false
+
+[cursor]
+shape = 'beam'
+
+fonts.family = "Sauce Code Pro Nerd Font"
+
+[fonts]
+size = 14
+features = []
+
+[window]
+width = 1276
+height = 224
+decorations = "Disabled"
+
+[colors]
+background = '#0F0D0E'
+black = '#1e1e1e'
+blue = '#459ee0'
+cursor = '#F38BA3'
+cyan = '#00c2f5'
+foreground  = '#F9F4DA'
+green = '#82b414'
+magenta = '#A376FE'
+red = '#fe0094'
+white = '#b9b9b9'
+yellow = '#FD971F'
+
+# https://raphamorim.io/rio/docs/config

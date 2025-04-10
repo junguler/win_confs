@@ -1,0 +1,329 @@
+set fish_greeting
+#set TERM "xterm-256color"
+set -gx PATH ~/bin/ $PATH
+
+set -g fish_ambiguous_width 1
+set -g fish_emoji_width 1
+set -g fish_width 1
+# set -U fish_features qmark-noglob 
+
+# set -g fish_color_normal '#FFFFFF'      # Default text color
+# set -g fish_color_comment '#82b414'     # Color for comments
+# set -g fish_color_keyword '#A376FE'     # Color for keywords
+# set -g fish_color_function '#459ee0'    # Color for function names
+# set -g fish_color_param '#FD971F'       # Color for parameters
+# set -g fish_color_variable '#FFB74D'    # Changed to a lighter orange for variables
+# set -g fish_color_escape '#fe0094'      # Color for escape sequences
+# set -g fish_color_redirection '#7A5DFF'  # Changed to a distinct purple for redirection operators
+# set -g fish_color_command '#A3C940'     # Changed to a lighter green for command prompts
+# set -g fish_color_error '#FF4081'       # Changed to a brighter pink for syntax errors
+# set -g fish_color_selection '#00c2f5'   # Background color for selections
+# set -g fish_color_search_match '#FBAE2D' # Changed to a golden yellow for search matches
+# set -g fish_color_quote '#6BBE45'       # Changed to a different shade of green for quoted text
+# set -g fish_color_valid_path '#99CC00'  # Changed to a more vibrant green for valid paths
+# set -g fish_color_invalid_path '#FF3D00' # Changed to a bright red-orange for invalid paths
+# set -g fish_pager_color_prefix '#D5006D'  # Changed to a distinct magenta for pager prefix color
+# set -g fish_pager_color_progress '#4CAF50' # Changed to a fresh green for pager progress color
+
+set -g fish_color_normal f8f8f2
+set -g fish_color_command 8be9fd
+set -g fish_color_keyword ff79c6
+set -g fish_color_quote f1fa8c
+set -g fish_color_redirection f8f8f2
+set -g fish_color_end ffb86c
+set -g fish_color_error ff5555
+set -g fish_color_param bd93f9
+set -g fish_color_comment 6272a4
+set -g fish_color_selection --background=44475a
+set -g fish_color_search_match --background=44475a
+set -g fish_color_operator 50fa7b
+set -g fish_color_escape ff79c6
+set -g fish_color_autosuggestion 6272a4
+set -g fish_color_cancel ff5555 --reverse
+set -g fish_color_option ffb86c
+set -g fish_color_history_current --bold
+set -g fish_color_status ff5555
+set -g fish_color_valid_path --underline
+set -g fish_pager_color_progress 4CAF50
+
+set -g fish_color_cwd 50fa7b
+set -g fish_color_cwd_root red
+set -g fish_color_host bd93f9
+set -g fish_color_host_remote bd93f9
+set -g fish_color_user 8be9fd
+
+set -g fish_pager_color_progress 6272a4
+set -g fish_pager_color_background
+set -g fish_pager_color_prefix 8be9fd
+set -g fish_pager_color_completion f8f8f2
+set -g fish_pager_color_description 6272a4
+set -g fish_pager_color_selected_background --background=44475a
+set -g fish_pager_color_selected_prefix 8be9fd
+set -g fish_pager_color_selected_completion f8f8f2
+set -g fish_pager_color_selected_description 6272a4
+set -g fish_pager_color_secondary_background
+set -g fish_pager_color_secondary_prefix 8be9fd
+set -g fish_pager_color_secondary_completion f8f8f2
+set -g fish_pager_color_secondary_description 6272a4
+
+#set -l cyan (set_color cyan)
+#set -l yellow (set_color yellow)
+#set -l red (set_color red)
+#set -l blue (set_color blue)
+#set -l green (set_color green)
+#set -l magenta (set_color magenta)
+#set -l normal (set_color normal)
+#set -l greyback (set_color -b "3c3c3c")
+## https://fishshell.com/docs/current/cmds/set_color.html
+
+bind \cP 'kill-bigword'
+bind \co 'backward-kill-bigword'
+
+bind \e\[1\;5D 'backward-bigword'
+bind \e\[1\;5C 'forward-bigword'
+
+#export FZF_DEFAULT_COMMAND="fd --type file --follow --hidden --color=always"
+#export FZF_DEFAULT_OPTS="--ansi --height 100%"
+#export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+#export FZF_ALT_C_COMMAND="fd -t d --hidden"
+
+#alias .='cd ../'
+#alias ..='cd ../../'
+#alias ...='cd ../../../'
+alias notor='yt-dlp --proxy ""'
+alias mpv "mpv.exe"
+alias vcurl "curl -x socks5h://localhost:10808"
+alias stream "streamlink"
+alias gitunset "git config --global --unset https.proxy; git config --global --unset http.proxy"
+alias gitv2ray "git config --global http.proxy 'socks5://127.0.0.1:10808'; git config --global https.proxy 'socks5://127.0.0.1:10808'"
+
+function ttyd+
+    ttyd -B -o -p 8080 -t cursorStyle=bar -t disableLeaveAlert=true -t fontSize=20 -t fontweight=normal -t fontWeightBold=normal -t 'theme={"foreground":"#ccc","blue":"#459ee0","green":"#82b414","cyan":"#00c2f5","red":"#fe0094","magenta":"#A376FE","yellow":"#FD971F","brightBlue":"#459ee0","brightGreen":"#82b414","brightCyan":"#00c2f5","brightRed":"#fe0094","brightMagenta":"#A376FE","brightYellow":"#FD971F","brightWhite":"#ccc","background":"#1e1e1e"}' fish
+end
+
+function notor+
+    yt-dlp --proxy "" -f worst $argv -o - | mpv -
+end
+
+function vmpv
+    set http_proxy "http://127.0.0.1:10808"
+    mpv.com $argv
+end
+
+function vmpv+
+    set http_proxy "http://127.0.0.1:10808"
+    mpv.com --ytdl-format="$argv[1]" "$argv[2]"
+end
+
+function tiny
+    yt-dlp $argv -f 160+140
+    while test $status -ne 0
+        torip
+        yt-dlp $argv -f 160+140
+    end
+end
+
+function audi
+    yt-dlp $argv -f 140
+    while test $status -ne 0
+        torip
+        yt-dlp $argv -f 140
+    end
+end
+
+function vide
+    yt-dlp $argv -f 18
+    while test $status -ne 0
+        torip
+        yt-dlp $argv -f 18
+    end
+end
+
+function yout
+    yt-dlp $argv
+    while test $status -ne 0
+        torip
+        yt-dlp $argv
+    end
+end
+
+function vstream
+    streamlink --http-proxy "http://127.0.0.1:10808" $argv
+    while test $status -ne 0 
+        torip 
+        streamlink --http-proxy "http://127.0.0.1:10808" $argv 
+    end 
+end
+
+function humanize_duration -d "Make a time interval human readable"
+    if not string length --quiet $argv
+         set --erase argv
+         read --line argv
+    end
+    set hours (math --scale=0 $argv/\(3600 \*1000\))
+    set mins (math --scale=0 $argv/\(60 \*1000\) % 60)
+    set secs (math --scale=0 $argv/1000 % 60)
+    if test $hours -gt 0
+        set --append output $hours"h"
+    end
+    if test $mins -gt 0
+        set --append output $mins"m"
+    end
+    if test $secs -gt 0
+        set --append output $secs"s"
+    end
+    if not set --query output
+        echo $argv"ms"
+    else
+        echo $output
+    end
+end
+
+function fish_prompt
+	set -l last_status $status
+		#set_color -b "333"
+		#echo -n (random choice "┏" "┓" "┗" "┛" "┣" "┫" "┻" "┳" "╋")
+		set_color (random choice red green blue cyan yellow magenta)
+		echo -n "┃"
+		set_color -b (random choice 080808 121212 1c1c1c 262626 303030 3a3a3a 444444)
+		set_color (random choice red green blue cyan yellow magenta)
+		echo -n "┃ "
+		set_color (random choice red green blue cyan yellow magenta)
+		echo -n (date +%I:%M)
+		set_color (random choice red green blue cyan yellow magenta)
+		echo -n " ┃"
+		set_color -b (random choice 080808 121212 1c1c1c 262626 303030 3a3a3a 444444)
+		set_color (random choice red green blue cyan yellow magenta)
+		echo -n "┃ "
+		set_color (random choice red green blue cyan yellow magenta)
+		echo -n (prompt_pwd)
+		set_color (random choice red green blue cyan yellow magenta)
+		echo -n " ┃"
+		set_color (random choice red green blue cyan yellow magenta)
+		set_color -b (random choice 080808 121212 1c1c1c 262626 303030 3a3a3a 444444)
+		if test $CMD_DURATION
+    		set -l human_command (echo $CMD_DURATION | humanize_duration) 	
+ 		echo -n "┃ "
+		set_color (random choice red green blue cyan yellow magenta)
+		echo -n $human_command
+		set_color (random choice red green blue cyan yellow magenta)
+		echo -n " ┃"
+		set_color -b (random choice 080808 121212 1c1c1c 262626 303030 3a3a3a 444444)
+		set_color (random choice red green blue cyan yellow magenta)
+		echo -n "┃ "
+		set_color (random choice red green blue cyan yellow magenta)
+		echo -n $last_status
+		set_color (random choice red green blue cyan yellow magenta)
+		echo -n " ┃"
+		set_color (random choice red green blue cyan yellow magenta)
+		echo -n "┃"
+		set_color normal
+		echo -n " "
+		end
+end
+
+fzf --fish | source
+
+# starship init fish | source
+
+
+
+
+#function fish_prompt
+#	set -l last_status $status
+#	set_color -b "3c3c3c"
+#	if test $last_status = 0
+#    	echo -n "   "
+#	else
+#		echo -n "   "
+#	end
+#	set_color "f4c100" 
+#	echo -n ""
+#	set_color "efa500" 
+#	echo -n " "
+#	set_color normal
+#	set_color -b "3c3c3c" 
+#	echo -n (date +%I:%M:%S)" "
+#	set_color "5fbe47"
+#	echo -n ""
+#	set_color "008982" 
+#	echo -n " "
+#	set_color normal 
+#	set_color -b "3c3c3c"
+#	echo -n (prompt_pwd)" "
+#	set_color "00a8ec"
+#	echo -n ""
+#	set_color "0070b9"
+#	echo -n " "
+#	set_color normal
+#	set_color -b "3c3c3c"
+#    if test $CMD_DURATION
+#    	set -l human_command (echo $CMD_DURATION | humanize_duration) 	
+# 		echo -n $human_command
+# 		echo -n " "
+# 		set_color normal
+# 		set_color -b "3c3c3c"
+# 		set_color "d583ae"
+#		echo -n ""
+#		set_color "db2b86"
+#		echo -n " "
+#		set_color normal
+# 		echo -n " "
+# 	end
+#end
+
+# LOOP_CONSTRUCT; [COMMANDS...] break; [COMMANDS...] end
+
+#function fish_prompt
+#	set -l last_status $status
+#	if test $last_status = 0
+#		set_color -b "3c3c3c"
+#		set_color "f4c100" 
+#		echo -n " "
+#		set_color "efa500" 
+#		echo -n " "
+#		set_color normal
+#		set_color -b "3c3c3c" 
+#		echo -n (date +%I:%M:%S)
+#		set_color "5fbe47"
+#		echo -n ""
+#		set_color "008982" 
+#		echo -n "  "
+#		set_color normal 
+#		set_color -b "3c3c3c"
+#		echo -n (prompt_pwd)
+#		set_color "00a8ec"
+#		echo -n " "
+#		set_color "0070b9"
+#		echo -n " "
+#		set_color normal
+#		set_color -b "3c3c3c"
+#		if test $CMD_DURATION
+#    		set -l human_command (echo $CMD_DURATION | humanize_duration) 	
+# 		echo -n $human_command
+# 		set_color -b "3c3c3c"
+# 		set_color "d583ae"
+#		echo -n ""
+#		set_color "db2b86"
+#		echo -n "   "
+#		set_color normal
+#		set_color -b "3c3c3c"
+#		set_color normal
+#		echo -n " "
+#		end
+#	else
+#		set_color -b "3c3c3c"
+#		echo -n "  "
+#		echo -n (date +%I:%M:%S)
+#		echo -n "  "
+#		echo -n (prompt_pwd)
+#		echo -n "  "
+#		if test $CMD_DURATION
+#    		set -l human_command (echo $CMD_DURATION | humanize_duration) 	
+# 		echo -n $human_command
+#		echo -n "  "
+#		set_color normal
+#		echo -n " "
+#	end
+# 	end
+#end

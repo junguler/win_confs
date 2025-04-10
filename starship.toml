@@ -1,0 +1,33 @@
+format = """| $time | $directory | $cmd_duration$status"""
+
+add_newline = false
+
+[time]
+time_format = "%R"
+style = '#e80388'
+format = '[$time]($style)'
+disabled = false
+
+[directory]
+style = '#e78b1f'
+format = '[$path]($style)'
+truncation_length = 1
+
+[cmd_duration]
+min_time = 0
+style = '#03b2e0'
+format = '[$duration]($style) | '
+
+[status]
+style = '#78a515'
+format = '[$status]($style) | '
+disabled = false
+
+# ${custom.random}
+
+[custom.random]
+#command = "duck=(red green blue cyan yellow magenta); zebra=$(( $RANDOM % 6 )); echo ${duck[$zebra]}"
+command = "printf '#%02x%02x%02x\n' $((RANDOM%256)) $((RANDOM%256)) $((RANDOM%256))"
+when = "true"
+style = '$output'
+format = '[$output]($style)'

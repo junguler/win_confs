@@ -1,0 +1,57 @@
+[window.position]
+x = 0
+y = 828
+
+[window.dimensions]
+columns = 142
+lines = 12
+
+[window]
+decorations = "none"
+
+[terminal.shell]
+program = "C:\\cygwin64\\bin\\fish.exe"
+args = ["--login", "-i"]
+
+[font.normal]
+family = "SauceCodePro NFM"
+
+[font.bold]
+family = "SauceCodePro NFM"
+
+[font.italic]
+family = "SauceCodePro NFM"
+
+[font.bold_italic]
+family = "SauceCodePro NFM"
+
+[font]
+size = 11
+offset.x = 1
+offset.y = 0
+
+[colors.primary]
+background = "#1e1e1e"
+foreground = "#b9b9b9"
+
+[colors.normal]
+black   = "#1e1e1e"
+red     = "#fe0094"
+green   = "#82b414"
+yellow  = "#FD971F"
+blue    = "#459ee0"
+magenta = "#A376FE"
+cyan    = "#00c2f5"
+white   = "#b9b9b9"
+
+[colors.bright]
+black   = "#777777"
+red     = "#fe0094"
+green   = "#82b414"
+yellow  = "#FD971F"
+blue    = "#459ee0"
+magenta = "#A376FE"
+cyan    = "#00c2f5"
+white   = "#b9b9b9"
+
+# https://alacritty.org/config-alacritty.html

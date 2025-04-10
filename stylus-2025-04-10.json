@@ -1,0 +1,488 @@
+[
+  {
+    "settings": {
+      "disableAll": false,
+      "exposeIframes": false,
+      "exposeStyleName": false,
+      "keepAlive": 0,
+      "keepAliveIdle": false,
+      "newStyleAsUsercss": false,
+      "openEditInWindow": false,
+      "openEditInWindow.popup": false,
+      "patchCsp": false,
+      "show-badge": true,
+      "styleViaASS": false,
+      "styleViaXhr": false,
+      "urlInstaller": true,
+      "windowPosition": {},
+      "compactWidth": 850,
+      "config.autosave": true,
+      "schemeSwitcher.enabled": "system",
+      "schemeSwitcher.nightStart": "18:00",
+      "schemeSwitcher.nightEnd": "06:00",
+      "popup.enabledFirst": true,
+      "popup.stylesFirst": true,
+      "popup.autoResort": false,
+      "popup.borders": false,
+      "popup.findSort": "w",
+      "manage.onlyEnabled": false,
+      "manage.onlyLocal": false,
+      "manage.onlyUsercss": false,
+      "manage.onlyEnabled.invert": false,
+      "manage.onlyLocal.invert": false,
+      "manage.onlyUsercss.invert": false,
+      "manage.actions.expanded": false,
+      "manage.backup.expanded": true,
+      "manage.filters.expanded": true,
+      "manage.links.expanded": true,
+      "manage.minColumnWidth": 750,
+      "manage.newUI": true,
+      "manage.newUI.favicons": true,
+      "manage.newUI.faviconsGray": false,
+      "manage.newUI.targets": 3,
+      "manage.newUI.sort": "title,asc",
+      "manage.searchMode": "meta",
+      "editor.options": {},
+      "editor.toc.expanded": true,
+      "editor.options.expanded": true,
+      "editor.options.style.expanded": true,
+      "editor.lint.expanded": true,
+      "editor.publish.expanded": true,
+      "editor.lineWrapping": true,
+      "editor.smartIndent": true,
+      "editor.indentWithTabs": false,
+      "editor.tabSize": 4,
+      "editor.keyMap": "sublime",
+      "editor.theme": "default",
+      "editor.beautify": {
+        "selector_separator_newline": true,
+        "newline_before_open_brace": false,
+        "newline_after_open_brace": true,
+        "newline_between_properties": true,
+        "newline_before_close_brace": true,
+        "newline_between_rules": false,
+        "preserve_newlines": true,
+        "end_with_newline": false,
+        "indent_conditional": true,
+        "indent_mozdoc": true,
+        "space_around_combinator": true,
+        "space_around_cmp": false
+      },
+      "editor.beautify.hotkey": "",
+      "editor.lintDelay": 300,
+      "editor.linter": "csslint",
+      "editor.lintReportDelay": 500,
+      "editor.matchHighlight": "token",
+      "editor.autoCloseBrackets": true,
+      "editor.autocompleteOnTyping": false,
+      "editor.contextDelete": false,
+      "editor.selectByTokens": true,
+      "editor.arrowKeysTraverse": true,
+      "editor.appliesToLineWidget": true,
+      "editor.autosaveDraft": 10,
+      "editor.livePreview": true,
+      "editor.livePreview.delay": 0.2,
+      "editor.targetsFirst": true,
+      "editor.colorpicker": true,
+      "editor.colorpicker.hexUppercase": false,
+      "editor.colorpicker.hotkey": "",
+      "editor.colorpicker.color": "",
+      "editor.colorpicker.maxHeight": 300,
+      "hotkey._execute_browser_action": "",
+      "hotkey.openManage": "",
+      "hotkey.styleDisableAll": "",
+      "sync.enabled": "none",
+      "iconset": -1,
+      "badgeDisabled": "#8B0000",
+      "badgeNormal": "#006666",
+      "headerWidth.edit": 280,
+      "headerWidth.install": 280,
+      "headerWidth.manage": 280,
+      "popup.search.globals": false,
+      "popupWidth": 246,
+      "popupWidthMax": 280,
+      "updateInterval": 24,
+      "updateOnlyEnabled": false,
+      "undefined": null
+    },
+    "order": {
+      "main": [],
+      "prio": []
+    }
+  },
+  {
+    "enabled": true,
+    "installDate": 1741127446964,
+    "sections": [
+      {
+        "code": ""
+      }
+    ],
+    "sourceCode": "/* ==UserStyle==\n@name           Youtube Small Thumbnails\n@namespace      youtube.com\n@version        0.8.4\n@description    small thumbnails for youtube\n@author         hdyzen\n@preprocessor \tstylus\n\n@var number rowsHomePag \t\t'Columns' [6, 1, 12, 1]\n@var number horizontalM\t\t\t'Horizontal margin columns' [8, 0, 200, 1, 'px']\n@var number verticalM\t\t\t'Vertival margin rows' [10, 0, 200, 1, 'px']\n@var number fontSizeT \t\t\t'Font size title' [1.4, 1, 6, 0.1, 'rem']\n@var number fontSizeM \t\t\t'Font size metadata' [1.3, 1, 6, 0.1, 'rem']\n@var number fontWeightT \t\t'Font weight title' [500, 100, 900, 100]\n@var number fontWeightM \t\t'Font weight metadata' [400, 100, 900, 100]\n@var number thumbSizeS\t\t\t'Thumb size search page' [240, 50, 900, 1, 'px']\n\n@var checkbox searchTwoColumns\t'Two columns in search page' 0\n\t\t\n@var checkbox videoP\t\t\t'Hide video preview when hover thumbnail' 0\n\t\t\n@var select viewedVideo \t\t'Video viewed mode' ['None', 'Grayscale', 'Remove']\n@var select viewedGrayS \t\t'Video viewed grayscale style' ['Default', 'Thumbnail', 'Slider', 'ThumbSlider:Thumb+Slider']\n@var range viewedGray\t\t\t'Video viewed grayscale' [80, 0, 100, 1, '%']\n\t\t\n@var range widthContH\t\t\t'Width container videos home page' [100, 0, 100, 1, '%']\n\t\t\n@var checkbox bloatH\t\t\t'Remove bloat homepage(shorts, banner, survey, etc)' 0\n@var checkbox mixPlaylist \t\t'Remove mix playlists' 0\n@var checkbox recommendedVideos 'Remove recommended videos in search page' 0\n\n==/UserStyle== */\n@-moz-document domain(\"youtube.com\") {\t\n\ti=!important;\n\n\t/* Set columns */\n\thtml {\n\t\t--ytd-rich-grid-item-margin: horizontalM i;\n\t\t--ytd-rich-grid-item-margin-row: verticalM i;\n\t}\n\tytd-rich-grid-renderer, ytd-grid-video-renderer, ytd-grid-playlist-renderer.yt-horizontal-list-renderer, ytd-reel-item-renderer {\n\t\t--ytd-rich-grid-items-per-row: rowsHomePag i;\n\t}\n\tytd-grid-video-renderer, ytd-grid-playlist-renderer.yt-horizontal-list-renderer, :is(ytd-search, [page-subtype=\"channels\"]) ytd-reel-item-renderer {\n\t\t--ytd-grid-video-width: calc(100% / var(--ytd-rich-grid-items-per-row) - var(--ytd-rich-grid-item-margin)) i;\n\t\twidth: calc(100% / var(--ytd-rich-grid-items-per-row) - var(--ytd-rich-grid-item-margin)) i;\n\t\t\n\t\t& ytd-thumbnail, & ytd-playlist-thumbnail {\n\t\t\twidth: 100% i;\n\t\t\theight: max-content i;\n\t\t\taspect-ratio: 16/9 i;\n\t\t\t\n\t\t\t&::before {\n\t\t\t\tdisplay: none i;\n\t\t\t}\n\t\t\t\n\t\t\t& #thumbnail, & #playlist-thumbnails, & ytd-playlist-video-thumbnail-renderer {\n\t\t\t\tposition: relative i;\n\t\t\t}\n\t\t}\n\t}\n\tytd-rich-item-renderer[rendered-from-rich-grid] {\n\t\tmargin: 0 i;\n\t}\n\t#scroll-container {\n\t\twidth: 100% i;\n\t\t\n\t\t#items {\n\t\t\twidth: 100% i;\n\t\t}\n\t}\n\t#contents.ytd-rich-grid-renderer {\n\t\tcolumn-gap: var(--ytd-rich-grid-item-margin) i;\n\t\trow-gap: var(--ytd-rich-grid-item-margin-row) i;\n\t\tdisplay: flex i;\n\t}\n\tytd-rich-grid-row.style-scope.ytd-rich-grid-renderer,\n\tytd-rich-grid-row.style-scope.ytd-rich-grid-renderer > #contents {\n\t\tdisplay: contents i;\n\t}\n\tytd-rich-grid-row ytd-rich-item-renderer {\n\t\tmargin: 0 i;\n\t\twidth: calc(100% / var(--ytd-rich-grid-items-per-row) - var(--ytd-rich-grid-item-margin)) i;\n\t}\n\tytd-browse[page-subtype=\"home\"] ytd-rich-grid-renderer {\n\t\tmargin: 0 24px;\n\t}\n\tytd-browse[page-subtype=\"home\"] ytd-rich-section-renderer > #content {\n\t\tmargin-inline: 0 i;\n\t}\n\tytd-feed-filter-chip-bar-renderer[fluid-width] #chips-content.ytd-feed-filter-chip-bar-renderer {\n\t\tpadding: 0;\n\t}\n\t/* VIDEOS CONTAINER HOME PAGE */\n\tytd-two-column-browse-results-rendererv {\n\t\twidth: widthContH i;\n\t}\n\t/* TITLE */\n\t#video-title.ytd-rich-grid-media,\n\t#video-title.ytd-radio-renderer,\n\t#video-title.ytd-video-renderer,\n\t#channel-title.ytd-channel-renderer,\n\t#video-title.ytd-playlist-renderer,\n\t#video-title.ytd-compact-video-renderer,\n\t#video-title.ytd-playlist-panel-video-renderer,\n\tytd-grid-video-renderer #video-title.yt-simple-endpoint.ytd-grid-video-renderer,\n \t.yt-lockup-metadata-view-model-wiz__title {\n\t\tfont-size: fontSizeT i;\n\t\tfont-weight: fontWeightT i;\n\t}\n\t/* DETAILS */\n\tytd-video-meta-block[rich-meta] #byline-container.ytd-video-meta-block,\n\tytd-video-meta-block:not([inline-badges]) #metadata-line.ytd-video-meta-block span.ytd-video-meta-block,\n\t#contents #text.ytd-channel-name:has(a),\n\t#metadata-line,\n\t.metadata-snippet-container-one-line.ytd-video-renderer,\n\t.metadata-snippet-container.ytd-video-renderer,\n\t#metadata.ytd-channel-renderer,\n\t#description.ytd-channel-renderer,\n\t#video-title.ytd-child-video-renderer,\n\t#length.ytd-child-video-renderer,\n\t#channel-name.long-byline.ytd-video-meta-block,\n\t#byline.ytd-playlist-panel-video-renderer {\n\t\tfont-size: fontSizeM i;\n\t\tfont-weight: fontWeightM i;\n\t}\n\t/* SIZE THUMB VIDEOS SEARCH PAGE */\n\tytd-radio-renderer {\n\t\t--ytd-thumbnail-max-width: 240px i;\n\t\t--ytd-thumbnail-min-width 240px i;\n\t}\n\tytd-search :is(ytd-video-renderer[use-search-ui] ytd-thumbnail.ytd-video-renderer,\n\tytd-playlist-renderer[is-search] ytd-playlist-thumbnail.ytd-playlist-renderer,\n\t#avatar-section.ytd-channel-renderer,\n\tytd-video-renderer:not([use-search-ui]) ytd-thumbnail.ytd-video-renderer,\n\tytd-thumbnail.ytd-radio-renderer,\n\tytd-playlist-thumbnail.ytd-radio-renderer),\n \tytd-search ytd-thumbnail {\n\t\tmax-width: thumbSizeS i;\n\t\tmin-width: thumbSizeS i;\n\t}\n\ta.yt-lockup-view-model-wiz__content-image {\n/* \t\tmax-width: 168px i;\n  \t\tmin-width: 168px i; */\n\t}\n\t/* TWO COLUMNS IN SEARCH PAGE */\n\tif searchTwoColumns {\n\t\tytd-item-section-renderer.ytd-section-list-renderer > #contents.ytd-item-section-renderer,\n\t\tytd-vertical-list-renderer.ytd-shelf-renderer > #items.ytd-vertical-list-renderer {\n\t\t\tdisplay: flex i;\n\t\t\tflex-wrap: wrap i;\n\t\t\tgap: var(--ytd-item-section-item-margin, 16px) i;\n\n\t\t\t& > ytd-video-renderer,\n\t\t\t& > ytd-radio-renderer,\n\t\t\t& > ytd-playlist-renderer {\n\t\t\t\tflex: 1 0 calc((100% - var(--ytd-item-section-item-margin, 16px)) / 2) i;\n\t\t\t\tmargin: 0 i;\n\t\t\t\tmax-width: calc((100% - var(--ytd-item-section-item-margin, 16px)) / 2);\n\t\t\t}\n\t\t\t& > ytd-reel-shelf-renderer {\n\t\t\t\tmax-width: 100%;\n\t\t\t}\n\t\t}\n\t\tytd-vertical-list-renderer.ytd-shelf-renderer > #items.ytd-vertical-list-renderer {\n\t\t\tdisplay: flex i;\n\t\t\tflex-wrap: wrap i;\n\t\t\tgap: var(--ytd-item-section-item-margin, 16px) i;\n\n\t\t\t& > ytd-video-renderer {\n\t\t\t\tflex: 1 0 calc((100% - var(--ytd-item-section-item-margin, 16px)) / 2) i;\n\t\t\t\tmargin: 0 i;\n\t\t\t}\n\t\t}\n\t}\n\t/* VIDEO PREVIEW THUMBNAIL */\n\tif videoP {\n\t\t#video-preview.ytd-app {\n\t\t\tdisplay: none i;\n\t\t}\n\t}\n\tif viewedVideo=='Grayscale' {\n\t\tselectorViewed = ':is(ytd-rich-item-renderer.style-scope.ytd-rich-grid-row, ytd-compact-video-renderer, ytd-playlist-panel-video-renderer, ytd-video-renderer):has(ytd-thumbnail-overlay-resume-playback-renderer)';\n\t\t/* VIEWED VIDEOS */\n\t\t/* CONTAINER VIDEO ITEM */\n\t\tif viewedGrayS=='Default' {\n\t\t\t{selectorViewed} {\n\t\t\t\tfilter: grayscale(viewedGray) i;\n\t\t\t}\n\t\t}\n\t\t/* VIDEO VIEWED SLIDER */\n\t\telse if viewedGrayS=='Slider' {\n\t\t\tytd-thumbnail-overlay-resume-playback-renderer {\n\t\t\t\tfilter: grayscale(viewedGray) i;\n\t\t\t}\n\t\t}\n\t\t/* THUMBNAIL */\n\t\telse if viewedGrayS=='Thumbnail' {\n\t\t\t{selectorViewed}  yt-image.style-scope.ytd-thumbnail {\n\t\t\t\tfilter: grayscale(viewedGray) i;\n\t\t\t}\n\t\t}\n\t\t/* CONTAINER THUMBNAIL */\n\t\telse if viewedGrayS=='ThumbSlider' {\n\t\t\t{selectorViewed}  #thumbnail {\n\t\t\t\tfilter: grayscale(viewedGray) i;\n\t\t\t}\n\t\t}\n\t}\n\tif viewedVideo=='Remove' {\n\t\t{selectorViewed}  {\n\t\t\tdisplay: none i;\n\t\t}\n\t}\n\tif bloatH {\n\t\t#big-yoodle,  ytd-rich-section-renderer:has(a[title][href=\"/feed/storefront\"]) {\n\t\t\tdisplay: none i;\n\t\t}\n\t}\n\t/* REMOVE MIX PLAYLISTS */\n\n\t/* REMOVE RECOMMENDED VIDEOS IN SEARCH PAGE */\n\tif recommendedVideos {\n\t\tselectorRecommended = 'ytd-item-section-renderer.ytd-section-list-renderer > #contents.ytd-item-section-renderer > ytd-shelf-renderer';\n\t\t{selectorRecommended} {\n\t\t\tdisplay: none i;\n\t\t}\n\t}\n}",
+    "updateUrl": "https://userstyles.world/api/style/9935.user.css",
+    "usercssData": {
+      "name": "Youtube Small Thumbnails",
+      "namespace": "youtube.com",
+      "version": "0.8.4",
+      "description": "small thumbnails for youtube",
+      "author": "hdyzen",
+      "preprocessor": "stylus",
+      "vars": {
+        "rowsHomePag": {
+          "type": "number",
+          "label": "Columns",
+          "name": "rowsHomePag",
+          "value": 4,
+          "default": 6,
+          "options": null,
+          "min": 1,
+          "max": 12,
+          "step": 1,
+          "units": null
+        },
+        "horizontalM": {
+          "type": "number",
+          "label": "Horizontal margin columns",
+          "name": "horizontalM",
+          "value": null,
+          "default": 8,
+          "options": null,
+          "min": 0,
+          "max": 200,
+          "step": 1,
+          "units": "px"
+        },
+        "verticalM": {
+          "type": "number",
+          "label": "Vertival margin rows",
+          "name": "verticalM",
+          "value": null,
+          "default": 10,
+          "options": null,
+          "min": 0,
+          "max": 200,
+          "step": 1,
+          "units": "px"
+        },
+        "fontSizeT": {
+          "type": "number",
+          "label": "Font size title",
+          "name": "fontSizeT",
+          "value": null,
+          "default": 1.4,
+          "options": null,
+          "min": 1,
+          "max": 6,
+          "step": 0.1,
+          "units": "rem"
+        },
+        "fontSizeM": {
+          "type": "number",
+          "label": "Font size metadata",
+          "name": "fontSizeM",
+          "value": null,
+          "default": 1.3,
+          "options": null,
+          "min": 1,
+          "max": 6,
+          "step": 0.1,
+          "units": "rem"
+        },
+        "fontWeightT": {
+          "type": "number",
+          "label": "Font weight title",
+          "name": "fontWeightT",
+          "value": null,
+          "default": 500,
+          "options": null,
+          "min": 100,
+          "max": 900,
+          "step": 100,
+          "units": null
+        },
+        "fontWeightM": {
+          "type": "number",
+          "label": "Font weight metadata",
+          "name": "fontWeightM",
+          "value": null,
+          "default": 400,
+          "options": null,
+          "min": 100,
+          "max": 900,
+          "step": 100,
+          "units": null
+        },
+        "thumbSizeS": {
+          "type": "number",
+          "label": "Thumb size search page",
+          "name": "thumbSizeS",
+          "value": null,
+          "default": 240,
+          "options": null,
+          "min": 50,
+          "max": 900,
+          "step": 1,
+          "units": "px"
+        },
+        "searchTwoColumns": {
+          "type": "checkbox",
+          "label": "Two columns in search page",
+          "name": "searchTwoColumns",
+          "value": null,
+          "default": "0",
+          "options": null
+        },
+        "videoP": {
+          "type": "checkbox",
+          "label": "Hide video preview when hover thumbnail",
+          "name": "videoP",
+          "value": null,
+          "default": "0",
+          "options": null
+        },
+        "viewedVideo": {
+          "type": "select",
+          "label": "Video viewed mode",
+          "name": "viewedVideo",
+          "value": null,
+          "default": "None",
+          "options": [
+            {
+              "name": "None",
+              "label": "None",
+              "value": "None"
+            },
+            {
+              "name": "Grayscale",
+              "label": "Grayscale",
+              "value": "Grayscale"
+            },
+            {
+              "name": "Remove",
+              "label": "Remove",
+              "value": "Remove"
+            }
+          ]
+        },
+        "viewedGrayS": {
+          "type": "select",
+          "label": "Video viewed grayscale style",
+          "name": "viewedGrayS",
+          "value": null,
+          "default": "Default",
+          "options": [
+            {
+              "name": "Default",
+              "label": "Default",
+              "value": "Default"
+            },
+            {
+              "name": "Thumbnail",
+              "label": "Thumbnail",
+              "value": "Thumbnail"
+            },
+            {
+              "name": "Slider",
+              "label": "Slider",
+              "value": "Slider"
+            },
+            {
+              "name": "ThumbSlider",
+              "label": "Thumb+Slider",
+              "value": "ThumbSlider"
+            }
+          ]
+        },
+        "viewedGray": {
+          "type": "range",
+          "label": "Video viewed grayscale",
+          "name": "viewedGray",
+          "value": null,
+          "default": 80,
+          "options": null,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "units": "%"
+        },
+        "widthContH": {
+          "type": "range",
+          "label": "Width container videos home page",
+          "name": "widthContH",
+          "value": null,
+          "default": 100,
+          "options": null,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "units": "%"
+        },
+        "bloatH": {
+          "type": "checkbox",
+          "label": "Remove bloat homepage(shorts, banner, survey, etc)",
+          "name": "bloatH",
+          "value": null,
+          "default": "0",
+          "options": null
+        },
+        "mixPlaylist": {
+          "type": "checkbox",
+          "label": "Remove mix playlists",
+          "name": "mixPlaylist",
+          "value": null,
+          "default": "0",
+          "options": null
+        },
+        "recommendedVideos": {
+          "type": "checkbox",
+          "label": "Remove recommended videos in search page",
+          "name": "recommendedVideos",
+          "value": null,
+          "default": "0",
+          "options": null
+        }
+      }
+    },
+    "author": "hdyzen",
+    "description": "small thumbnails for youtube",
+    "name": "Youtube Small Thumbnails",
+    "originalDigest": "75735c3351895bc8d830174daa0d8205f795645b",
+    "_id": "1e025636-0c16-40e1-999e-d5d9d9d36c39",
+    "_rev": 1743438889270,
+    "url": "https://userstyles.world/style/9935",
+    "installationUrl": "https://userstyles.world/style/9935",
+    "id": 4
+  },
+  {
+    "enabled": true,
+    "installDate": 1741301851161,
+    "sections": [
+      {
+        "code": ""
+      }
+    ],
+    "sourceCode": "/* ==UserStyle==\n@name         collapse sidebar for good\n@version      20220613.20.43\n@namespace    userstyles.world/user/fgtranime\n@description  Makes YouTube sidebar collapse\n@author       fgtranime\n@license      No License\n==/UserStyle== */\n\n@-moz-document domain(\"youtube.com\") {\n#guide {\n    display: none;\n}\n \nytd-app[guide-persistent-and-visible] ytd-page-manager.ytd-app {\n    margin-left:46px;\n}\n}\n",
+    "updateUrl": "https://userstyles.world/api/style/5156.user.css",
+    "usercssData": {
+      "name": "collapse sidebar for good",
+      "version": "20220613.20.43",
+      "namespace": "userstyles.world/user/fgtranime",
+      "description": "Makes YouTube sidebar collapse",
+      "author": "fgtranime",
+      "license": "No License"
+    },
+    "author": "fgtranime",
+    "description": "Makes YouTube sidebar collapse",
+    "name": "collapse sidebar for good",
+    "originalDigest": "828ab5956bb89a4dc42bc05cd7415d8cfe8d98c3",
+    "_id": "f206aa45-4a21-492d-a163-f358116d8156",
+    "_rev": 1743438895000,
+    "url": "https://userstyles.world/style/5156",
+    "installationUrl": "https://userstyles.world/style/5156",
+    "id": 12,
+    "updateDate": 1741304217365
+  },
+  {
+    "enabled": true,
+    "installDate": 1741304349473,
+    "name": "global",
+    "sections": [
+      {
+        "code": "* {border-radius: 0px !important;}\n\nimg {filter: brightness(80%) !important;}\n\n/* a { text-decoration: underline !important; }\na:link { color: #7aa2f7 !important; }\na:visited { color: cyan !important; } */\n\n@media (forced-colors: active) {\na {text-decoration: underline !important;}\na:visited {color: ButtonBorder !important;}\na:link {color: ActiveText !important;}\n}\n\n/* \nCanvas - The background color of the content area (typically the page background).\nCanvasText - The text color used on the canvas (usually the default text color).\nLinkText - The color of unvisited hyperlinks.\nVisitedText - The color of visited hyperlinks.\nActiveText - The color of active hyperlinks (e.g., when clicked).\nButtonFace - The background color of buttons.\nButtonText - The text color used on buttons.\nButtonBorder - The border color of buttons (though borders are less commonly styled in forced-colors mode).\nField - The background color of form fields (e.g., input boxes).\nFieldText - The text color inside form fields.\nHighlight - The background color of selected text or UI elements (e.g., text selection or focus highlights).\nHighlightText - The text color of selected text.\nMark - The background color of text marked with the <mark> element.\nMarkText - The text color of text within a <mark> element.\nGrayText - The color for disabled or inactive text.\n*/"
+      }
+    ],
+    "updateDate": 1744077603827,
+    "_id": "f42085e8-47c4-4b6a-a774-7f14f13e1408",
+    "_rev": 1744077603827,
+    "id": 15
+  },
+  {
+    "enabled": true,
+    "installDate": 1741305503770,
+    "sections": [
+      {
+        "code": ""
+      }
+    ],
+    "sourceCode": "/* ==UserStyle==\n@name           Hide YT Shorts\n@author         sapondanaisriwan <sapondanaisriwan@gmail.com> (https://github.com/sapondanaisriwan)\n@description    If you want to submit a bug or request a feature please report via github issue. Since I receive so many emails, I can't reply to them all.\n@namespace      https://userstyles.world/user/sapondanaisriwan\n@homepageURL    https://github.com/sapondanaisriwan/youtube-anti-shorts\n@supportURL     https://github.com/sapondanaisriwan/youtube-anti-shorts/issues\n@version        1.0.2\n@license        MIT\n@preprocessor   stylus\n\n@var checkbox hideTab             \"Hide Tab\" 1\n@var checkbox homePage            \"Home Feed Shorts\" 1\n@var checkbox channelPage         \"Channel Feed Shorts\" 1\n@var checkbox watchPage           \"Watch Feed Shorts\" 1\n@var checkbox searchPage          \"Search Feed Shorts\" 1\n@var checkbox hashtagPage         \"Hashtag Feed Shorts\" 1\n@var checkbox subscriptionPage    \"Subscription Feed Shorts\" 1\n==/UserStyle== */\n@-moz-document domain(\"youtube.com\") {\n    /* Variables */\n    i=!important;\n\n    layoutFix() {\n        ytd-rich-grid-row,\n        ytd-rich-grid-row #contents {\n            display: contents;\n        }\n\n        ytd-rich-grid-renderer {\n            margin-inline: 16px;\n        }\n        \n        #content.ytd-rich-section-renderer {\n            max-width: calc(var(--ytd-rich-grid-items-per-row) * (var(--ytd-rich-grid-item-max-width) + var(--ytd-rich-grid-item-margin)));\n            margin: 0 8px; // 24px = 16 + 8\n        }\n    }\n\n    if (hideTab) {\n        a.ytd-mini-guide-entry-renderer[title=Shorts],\n        #endpoint.yt-simple-endpoint.ytd-guide-entry-renderer[title=Shorts] {\n            display: none;\n        }\n    }\n\n    if (homePage) {\n        [page-subtype='home'] ytd-rich-section-renderer:has(a[href^=\"/shorts/\"]) {\n            display: none;\n        }\n    }\n\n    if (channelPage) {\n        [page-subtype=\"channels\"] {\n            ytd-item-section-renderer,\n            ytd-rich-grid-renderer, {\n                &:has(a[href^=\"/shorts/\"]) {\n                    display: none;\n                }\n            }\n        }\n    }\n\n    if (watchPage) {\n        ytd-watch-flexy ytd-reel-shelf-renderer {\n            display: none;\n        }\n    }\n\n    if (searchPage) {\n        ytd-search {\n            ytd-reel-shelf-renderer,\n            ytd-video-renderer {\n                &:has(a[href^=\"/shorts/\"]) {\n                    display: none;\n                }\n            }\n        }\n    }\n\n    if (hashtagPage) {\n        [page-subtype=\"hashtag-landing-page\"] {\n            ytd-rich-item-renderer {\n                &:has(a[href^=\"/shorts/\"]) {\n                    display: none;\n                }\n            }\n\n            ytd-rich-grid-renderer[is-shorts-grid] #contents.ytd-rich-grid-renderer {\n                display: none;\n            }\n\n            layoutFix();\n        }\n    }\n\n    if (subscriptionPage) {\n        [page-subtype=\"subscriptions\"] {\n            ytd-item-section-renderer,\n            ytd-rich-section-renderer,\n            ytd-grid-video-renderer, ytd-rich-item-renderer {\n                &:has(a[href^=\"/shorts/\"]) {\n                    display: none;\n                }\n            }\n\n            layoutFix();\n        }\n    }\n}",
+    "updateUrl": "https://userstyles.world/api/style/11014.user.css",
+    "usercssData": {
+      "name": "Hide YT Shorts",
+      "author": "sapondanaisriwan <sapondanaisriwan@gmail.com> (https://github.com/sapondanaisriwan)",
+      "description": "If you want to submit a bug or request a feature please report via github issue. Since I receive so many emails, I can't reply to them all.",
+      "namespace": "https://userstyles.world/user/sapondanaisriwan",
+      "homepageURL": "https://github.com/sapondanaisriwan/youtube-anti-shorts",
+      "supportURL": "https://github.com/sapondanaisriwan/youtube-anti-shorts/issues",
+      "version": "1.0.2",
+      "license": "MIT",
+      "preprocessor": "stylus",
+      "vars": {
+        "hideTab": {
+          "type": "checkbox",
+          "label": "Hide Tab",
+          "name": "hideTab",
+          "value": null,
+          "default": "1",
+          "options": null
+        },
+        "homePage": {
+          "type": "checkbox",
+          "label": "Home Feed Shorts",
+          "name": "homePage",
+          "value": null,
+          "default": "1",
+          "options": null
+        },
+        "channelPage": {
+          "type": "checkbox",
+          "label": "Channel Feed Shorts",
+          "name": "channelPage",
+          "value": null,
+          "default": "1",
+          "options": null
+        },
+        "watchPage": {
+          "type": "checkbox",
+          "label": "Watch Feed Shorts",
+          "name": "watchPage",
+          "value": null,
+          "default": "1",
+          "options": null
+        },
+        "searchPage": {
+          "type": "checkbox",
+          "label": "Search Feed Shorts",
+          "name": "searchPage",
+          "value": null,
+          "default": "1",
+          "options": null
+        },
+        "hashtagPage": {
+          "type": "checkbox",
+          "label": "Hashtag Feed Shorts",
+          "name": "hashtagPage",
+          "value": null,
+          "default": "1",
+          "options": null
+        },
+        "subscriptionPage": {
+          "type": "checkbox",
+          "label": "Subscription Feed Shorts",
+          "name": "subscriptionPage",
+          "value": null,
+          "default": "1",
+          "options": null
+        }
+      }
+    },
+    "author": "sapondanaisriwan <sapondanaisriwan@gmail.com> (https://github.com/sapondanaisriwan)",
+    "description": "If you want to submit a bug or request a feature please report via github issue. Since I receive so many emails, I can't reply to them all.",
+    "url": "https://github.com/sapondanaisriwan/youtube-anti-shorts",
+    "name": "Hide YT Shorts",
+    "originalDigest": "cd0e5fbb22e14ae545db6e084e55cc7e1af9ecdf",
+    "_id": "d6436b30-6f14-4569-91cb-7c5292a5a010",
+    "_rev": 1742257231016,
+    "installationUrl": "https://userstyles.world/style/11014",
+    "id": 16
+  }
+]
